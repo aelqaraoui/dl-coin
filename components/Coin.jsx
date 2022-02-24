@@ -17,10 +17,10 @@ const Coin = () => {
     <div className="App">
       <div id="coin" className={tossResult} key={+new Date()}>
         <div className="side-a">
-          <h2>T</h2>
+          <h1>T</h1>
         </div>
         <div className="side-b">
-          <h2>H</h2>
+          <h1>H</h1>
         </div>
       </div>
 
@@ -51,17 +51,32 @@ const Coin = () => {
         </div>
       </div>
 
-      <p>Select the Ⓝ amount to flip</p>
-      <div style={{ display: "flex", gap: "12px" }}>
-        <div className="near-amount">1 Ⓝ</div>
-        <div className="near-amount">2 Ⓝ</div>
-        <div className="near-amount">3 Ⓝ</div>
-        <div className="near-amount">4 Ⓝ</div>
-        <div className="near-amount">5 Ⓝ</div>
+      <div>
+        <span style={{ marginBottom: "12px", display: "block" }}>
+          Select the Ⓝ amount to flip
+        </span>
+        <div style={{ display: "flex", gap: "12px" }}>
+          <div className="near-amount">1 Ⓝ</div>
+          <div className="near-amount">2 Ⓝ</div>
+          <div className="near-amount">3 Ⓝ</div>
+          <div className="near-amount">4 Ⓝ</div>
+          <div className="near-amount">5 Ⓝ</div>
+        </div>
       </div>
-      <a href="something" className="button3" style={{ marginTop: "16px" }}>
-        Flip
-      </a>
+
+      <div
+        style={{
+          marginTop: "16px",
+          width: "100%",
+          backgroundColor: "#aaa",
+          color: "white",
+          borderRadius: "4px",
+          padding: "12px",
+          cursor: "pointer",
+        }}
+      >
+        Double or Nothing
+      </div>
       {/* <button id="btn" onClick={coinToss}>
         Coin Toss
       </button> */}

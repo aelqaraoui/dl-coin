@@ -1,20 +1,19 @@
 .container {
   /* padding: 0 2rem; */
   background-color: #efefef;
+  min-height: 100vh;
 }
 
 .main {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .body {
-  padding: 4rem 0;
+  padding: 2rem 0;
   display: flex;
   flex: 1;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
@@ -24,7 +23,7 @@
   flex: 1;
   padding: 0.5rem 2rem;
   border-bottom: 1px solid white;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
@@ -32,7 +31,7 @@
 .footer {
   display: flex;
   flex: 1;
-  padding: 2rem 0;
+  padding: 1rem 0;
   border-top: 1px solid white;
   justify-content: center;
   align-items: center;
