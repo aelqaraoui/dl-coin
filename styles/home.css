@@ -16,6 +16,7 @@
   flex: 1;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 
 .header {
@@ -28,32 +29,26 @@
   gap: 16px;
 }
 
-.footer {
+.header .first-col {
   display: flex;
-  flex: 1;
-  padding: 1rem 0;
-  border-top: 1px solid white;
-  justify-content: center;
-  align-items: center;
+  gap: 12px;
+  align-items: baseline;
 }
 
-.footer a {
+.available-near {
+  color: green;
+  font-size: 12px;
+}
+
+.sign-out {
+  color: red;
+  cursor: pointer;
+}
+
+.social-icons {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+  margin-top: 36px;
+  gap: 16px;
 }
 
 .near-amount {
