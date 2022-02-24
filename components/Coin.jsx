@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import Lottie from 'react-lottie';
+import winAnimation from '../lotties/win.json';
+import coinAnimation from '../lotties/coin.json';
+
 const Coin = () => {
   const [selectedSide, setSelectedSide] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(1);
@@ -16,14 +20,24 @@ const Coin = () => {
 
   return (
     <div className="App">
-      <div id="coin" className={tossResult} key={+new Date()}>
+      {/* <div id="coin" className={tossResult} key={+new Date()}>
         <div className="side-a">
           <h1>T</h1>
         </div>
         <div className="side-b">
           <h1>H</h1>
         </div>
-      </div>
+      </div> */}
+            <Lottie options={{
+      loop: true,
+      autoplay: true,
+      animationData: coinAnimation,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      }}}
+      width={300}
+      height={300}>
+      </Lottie>
 
       <div className="chip-group" role="radiogroup">
         <div
@@ -105,6 +119,15 @@ const Coin = () => {
       >
         Double or Nothing
       </div>
+
+      <Lottie options={{
+      loop: true,
+      autoplay: true,
+      animationData: winAnimation,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      }}}>
+      </Lottie>
     </div>
   );
 };
