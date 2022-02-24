@@ -114,28 +114,39 @@ button {
 .chip > * {
   margin-right: 2px;
   margin-left: 2px;
+}
+
+.chip {
   color: #757373;
 }
+
 .chip input {
   display: none;
 }
+
 .chip.chip-checkbox,
 .chip.chip-toggle,
 .chip.clickable {
   cursor: pointer;
 }
+
 .chip.active {
-  background-color: #d3d2d2;
+  background-color: #444;
   border-color: #c3c2c2;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  color: white;
 }
+
 .chip:hover,
 .chip:focus {
-  background-color: #e3e2e2;
+  background-color: #444;
+  color: white;
 }
+
 .chip:active:focus {
-  background-color: #d3d2d2;
+  background-color: #444;
 }
+
 .chip button {
   border: none;
   margin-top: 0;
@@ -144,6 +155,7 @@ button {
   background: none;
   display: inline-flex;
 }
+
 .chip {
   transition: all 0.3s ease-in-out;
   background-color: #fff;
@@ -154,4 +166,18 @@ button {
   padding: 4px 6px 4px 6px;
   margin-right: 6px;
   margin-bottom: 6px;
+}
+
+.double-btn {
+  margin-top: 16px;
+  width: 100%;
+  background-color: #aaa;
+  color: white;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.double-btn:hover {
+  background-color: #444;
 }

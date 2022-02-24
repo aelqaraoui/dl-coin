@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 const Coin = () => {
   const [selected, setSelected] = useState("");
+  const [selectedAmount, setSelectedAmount] = useState(1);
   const [tossResult, setTossResult] = useState("heads");
 
   const coinToss = () => {
@@ -55,31 +56,52 @@ const Coin = () => {
         <span style={{ marginBottom: "12px", display: "block" }}>
           Select the Ⓝ amount to flip
         </span>
-        <div style={{ display: "flex", gap: "12px" }}>
-          <div className="near-amount">1 Ⓝ</div>
-          <div className="near-amount">2 Ⓝ</div>
-          <div className="near-amount">3 Ⓝ</div>
-          <div className="near-amount">4 Ⓝ</div>
-          <div className="near-amount">5 Ⓝ</div>
+        <div
+          style={{ display: "flex", gap: "12px" }}
+          role="radiogroup"
+          onChange={() => console.log("p1p")}
+        >
+          <div
+            className={`near-amount ${selectedAmount === 1 ? "active" : ""} `}
+            onClick={() => setSelectedAmount(1)}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="onenear">1 Ⓝ</span>
+          </div>
+          <div
+            className={`near-amount ${selectedAmount === 2 ? "active" : ""} `}
+            onClick={() => setSelectedAmount(2)}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="twonear">2 Ⓝ</span>
+          </div>
+          <div
+            className={`near-amount ${selectedAmount === 3 ? "active" : ""} `}
+            onClick={() => setSelectedAmount(3)}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="threenear">3 Ⓝ</span>
+          </div>
+          <div
+            className={`near-amount ${selectedAmount === 4 ? "active" : ""} `}
+            onClick={() => setSelectedAmount(4)}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="fournear">4 Ⓝ</span>
+          </div>
+          <div
+            className={`near-amount ${selectedAmount === 5 ? "active" : ""} `}
+            onClick={() => setSelectedAmount(5)}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="fivenear">5 Ⓝ</span>
+          </div>
         </div>
       </div>
 
-      <div
-        style={{
-          marginTop: "16px",
-          width: "100%",
-          backgroundColor: "#aaa",
-          color: "white",
-          borderRadius: "4px",
-          padding: "12px",
-          cursor: "pointer",
-        }}
-      >
+      <div className="double-btn" onClick={coinToss}>
         Double or Nothing
       </div>
-      {/* <button id="btn" onClick={coinToss}>
-        Coin Toss
-      </button> */}
     </div>
   );
 };

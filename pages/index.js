@@ -40,16 +40,37 @@ export default function Home() {
           <div
             style={{
               display: "flex",
-              marginTop: "24px",
+              marginTop: "36px",
               gap: "16px",
             }}
           >
-            <FaDiscord
-              style={{ fontSize: "32px", color: "#5865f2", cursor: "pointer" }}
-            ></FaDiscord>
-            <FaTwitter
-              style={{ fontSize: "32px", color: "#0d6efd", cursor: "pointer" }}
-            ></FaTwitter>
+            <a
+              href="https://twitter.com/DegenLizards"
+              target={"_blank"}
+              rel="noreferrer"
+            >
+              <FaTwitter
+                style={{
+                  fontSize: "32px",
+                  color: "#0d6efd",
+                  cursor: "pointer",
+                }}
+              ></FaTwitter>
+            </a>
+
+            <a
+              href="https://discord.gg/dQfQ9gYqKb"
+              target={"_blank"}
+              rel="noreferrer"
+            >
+              <FaDiscord
+                style={{
+                  fontSize: "32px",
+                  color: "#5865f2",
+                  cursor: "pointer",
+                }}
+              ></FaDiscord>
+            </a>
           </div>
         </main>
 
