@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 const Coin = () => {
-  const [selected, setSelected] = useState("");
+  const [selectedSide, setSelectedSide] = useState("");
   const [selectedAmount, setSelectedAmount] = useState(1);
   const [tossResult, setTossResult] = useState("heads");
 
@@ -28,24 +28,24 @@ const Coin = () => {
       <div className="chip-group" role="radiogroup">
         <div
           className={`chip ${
-            selected === "heads" ? "active" : ""
+            selectedSide === "heads" ? "active" : ""
           } chip-checkbox`}
           aria-labelledby="radioOneLabel"
           role="radio"
           aria-checked="false"
-          onClick={() => setSelected("heads")}
+          onClick={() => setSelectedSide("heads")}
         >
           <input type="radio" name="radioEx" />
           <span id="radioOneLabel">Heads</span>
         </div>
         <div
           className={`chip ${
-            selected === "tails" ? "active" : ""
+            selectedSide === "tails" ? "active" : ""
           } chip-checkbox`}
           aria-labelledby="radioTwoLabel"
           role="radio"
           aria-checked="false"
-          onClick={() => setSelected("tails")}
+          onClick={() => setSelectedSide("tails")}
         >
           <input type="radio" name="radioEx" />
           <span id="radioTwoLabel">Tails</span>
@@ -99,7 +99,10 @@ const Coin = () => {
         </div>
       </div>
 
-      <div className="double-btn" onClick={coinToss}>
+      <div
+        className={`double-btn ${selectedSide ? "active" : "disabled"}`}
+        onClick={coinToss}
+      >
         Double or Nothing
       </div>
     </div>
