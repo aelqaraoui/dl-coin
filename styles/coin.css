@@ -64,16 +64,16 @@
 }
 
 #coin.heads {
-  -webkit-animation: flipHeads 2s ease-out forwards;
-  -moz-animation: flipHeads 2s ease-out forwards;
-  -o-animation: flipHeads 2s ease-out forwards;
-  animation: flipHeads 2s ease-out forwards;
+  -webkit-animation: flipHeads 2.5s ease-out forwards;
+  -moz-animation: flipHeads 2.5s ease-out forwards;
+  -o-animation: flipHeads 2.5s ease-out forwards;
+  animation: flipHeads 2.5s ease-out forwards;
 }
 #coin.tails {
-  -webkit-animation: flipTails 2s ease-out forwards;
-  -moz-animation: flipTails 2s ease-out forwards;
-  -o-animation: flipTails 2s ease-out forwards;
-  animation: flipTails 2s ease-out forwards;
+  -webkit-animation: flipTails 2.5s ease-out forwards;
+  -moz-animation: flipTails 2.5s ease-out forwards;
+  -o-animation: flipTails 2.5s ease-out forwards;
+  animation: flipTails 2.5s ease-out forwards;
 }
 
 @-webkit-keyframes flipHeads {
@@ -116,10 +116,6 @@ button {
   margin-left: 2px;
 }
 
-.chip {
-  color: #757373;
-}
-
 .chip input {
   display: none;
 }
@@ -147,15 +143,6 @@ button {
   background-color: #444;
 }
 
-.chip button {
-  border: none;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0;
-  background: none;
-  display: inline-flex;
-}
-
 .chip {
   transition: all 0.3s ease-in-out;
   background-color: #fff;
@@ -166,6 +153,7 @@ button {
   padding: 4px 6px 4px 6px;
   margin-right: 6px;
   margin-bottom: 6px;
+  color: #757373;
 }
 
 .double-btn {
