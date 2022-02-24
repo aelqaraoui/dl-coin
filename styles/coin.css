@@ -1,0 +1,169 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#coin {
+  position: relative;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+}
+#coin div {
+  width: 100%;
+  height: 100%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 0 0 45px rgba(255, 255, 255, 0.3),
+    0 12px 20px -10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: inset 0 0 45px rgba(255, 255, 255, 0.3),
+    0 12px 20px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 45px rgba(255, 255, 255, 0.3),
+    0 12px 20px -10px rgba(0, 0, 0, 0.4);
+}
+.side-a {
+  background-color: #bb0000;
+  color: white;
+  text-align: center;
+}
+.side-b {
+  background-color: #3e3e3e;
+  color: white;
+  text-align: center;
+}
+
+#coin {
+  transition: -webkit-transform 1s ease-in;
+  -webkit-transform-style: preserve-3d;
+}
+#coin div {
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.side-a {
+  z-index: 100;
+}
+.side-b {
+  -webkit-transform: rotateY(-180deg);
+}
+
+#coin.heads {
+  -webkit-animation: flipHeads 2s ease-out forwards;
+  -moz-animation: flipHeads 2s ease-out forwards;
+  -o-animation: flipHeads 2s ease-out forwards;
+  animation: flipHeads 2s ease-out forwards;
+}
+#coin.tails {
+  -webkit-animation: flipTails 2s ease-out forwards;
+  -moz-animation: flipTails 2s ease-out forwards;
+  -o-animation: flipTails 2s ease-out forwards;
+  animation: flipTails 2s ease-out forwards;
+}
+
+@-webkit-keyframes flipHeads {
+  from {
+    -webkit-transform: rotateY(0);
+    -moz-transform: rotateY(0);
+    transform: rotateY(0);
+  }
+  to {
+    -webkit-transform: rotateY(540deg);
+    -moz-transform: rotateY(540deg);
+    transform: rotateY(540deg);
+  }
+}
+@-webkit-keyframes flipTails {
+  from {
+    -webkit-transform: rotateY(0);
+    -moz-transform: rotateY(0);
+    transform: rotateY(0);
+  }
+  to {
+    -webkit-transform: rotateY(720deg);
+    -moz-transform: rotateY(720deg);
+    transform: rotateY(720deg);
+  }
+}
+
+button {
+  cursor: pointer;
+}
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.chip > * {
+  margin-right: 2px;
+  margin-left: 2px;
+  color: #757373;
+}
+.chip input {
+  display: none;
+}
+.chip.chip-checkbox,
+.chip.chip-toggle,
+.chip.clickable {
+  cursor: pointer;
+}
+.chip.active {
+  background-color: #d3d2d2;
+  border-color: #c3c2c2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+}
+.chip:hover,
+.chip:focus {
+  background-color: #e3e2e2;
+}
+.chip:active:focus {
+  background-color: #d3d2d2;
+}
+.chip button {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  display: inline-flex;
+}
+.chip {
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 1px solid #d3d2d2;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 6px 4px 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+a.button3 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  background-color: #4eb5f1;
+  text-align: center;
+  transition: all 0.2s;
+}
+a.button3:hover {
+  background-color: #4095c6;
+}
+@media all and (max-width: 30em) {
+  a.button3 {
+    display: block;
+    margin: 0.2em auto;
+  }
+}
