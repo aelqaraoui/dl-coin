@@ -28,13 +28,22 @@ html {
   --text-primary: black;
   --text-secondary: white;
   --text-terciary: #757373;
+  --text-link: #0d6efd;
 }
 
 [data-theme="dark"] {
-  --background: black;
-  --text-primary: white;
+  --background: #0f172a;
+  /* --text-primary: white;
   --text-secondary: grey;
-  --accent: darkred;
+  --accent: darkred; */
+  --background-secondary: #aaa;
+  --background-terciary: #535e70;
+  --background-accent: #444;
+  --background-smooth: #eaeaea;
+  --text-primary: white;
+  --text-secondary: white;
+  --text-terciary: black;
+  --text-link: white;
 }
 
 body {

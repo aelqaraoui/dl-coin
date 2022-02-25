@@ -1,10 +1,11 @@
 import "regenerator-runtime/runtime";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { login, logout } from "./utils";
 import "./global.css";
 import BN from "bn.js";
 import "./home.css";
-import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { FaDiscord, FaTwitter, FaMoon } from "react-icons/fa";
+import { BsFillSunFill } from "react-icons/bs";
 
 import getConfig from "./config";
 const { networkId } = getConfig("testnet");
@@ -46,6 +47,13 @@ export default function App() {
 
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showFAQsModal, setShowFAQsModal] = useState(false);
+
+  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   // if not signed in, return early with sign-in prompt
   // if (!window.walletConnection.isSignedIn()) {
@@ -132,15 +140,52 @@ export default function App() {
 
   return (
     // use React Fragment, <>, to avoid wrapping elements in unnecessary divs
-    <div className="container">
+    <div className="container" data-theme={theme}>
       <div className="header">
         {window.walletConnection.isSignedIn() && (
           <>
-            <div className="first-col">
+            <div className="first-col" style={{ flex: "1 1 0" }}>
               <p>{window.accountId}</p>
               <p className="available-near">{balance.toFixed(2)} Ⓝ</p>
             </div>
-            <p className="sign-out" onClick={logout}>
+            <div
+              style={{
+                flex: "1 1 0",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {theme === "dark" ? (
+                <BsFillSunFill
+                  style={{
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    color: "white",
+                  }}
+                  onClick={() => setTheme("light")}
+                ></BsFillSunFill>
+              ) : (
+                <FaMoon
+                  style={{
+                    fontSize: "16px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setTheme("dark")}
+                ></FaMoon>
+              )}
+
+              {/* <BsFillSunFill
+                style={{
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              ></BsFillSunFill> */}
+            </div>
+            <p
+              className="sign-out"
+              style={{ flex: "1 1 0", textAlign: "end" }}
+              onClick={logout}
+            >
               Sign out
             </p>
           </>
@@ -164,27 +209,11 @@ export default function App() {
               fontSize: "14px",
             }}
           >
-            <p
-              style={{
-                margin: "0",
-                color: "#0d6efd",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setShowAboutModal(true)}
-            >
+            <p className="faq-link" onClick={() => setShowAboutModal(true)}>
               ABOUT
             </p>
             <span style={{ display: "block", color: "#aaa" }}>|</span>
-            <p
-              style={{
-                margin: "0",
-                color: "#0d6efd",
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => setShowFAQsModal(true)}
-            >
+            <p className="faq-link" onClick={() => setShowFAQsModal(true)}>
               FAQs
             </p>
           </div>
