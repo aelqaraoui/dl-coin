@@ -512,6 +512,7 @@ button {
   padding: 48px;
   flex-direction: column;
   border-radius: 4px;
+  color: var(--text-primary);
 }
 
 .display-block {
