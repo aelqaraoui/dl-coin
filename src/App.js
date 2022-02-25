@@ -142,54 +142,47 @@ export default function App() {
     // use React Fragment, <>, to avoid wrapping elements in unnecessary divs
     <div className="container" data-theme={theme}>
       <div className="header">
-        {window.walletConnection.isSignedIn() && (
-          <>
-            <div className="first-col" style={{ flex: "1 1 0" }}>
+        <div className="first-col" style={{ flex: "1 1 0" }}>
+          {window.walletConnection.isSignedIn() && (
+            <>
               <p>{window.accountId}</p>
-              <p className="available-near">{balance.toFixed(2)} Ⓝ</p>
-            </div>
-            <div
+              <p className="available-near">{balance.toFixed(2)} Ⓝ</p>{" "}
+            </>
+          )}
+        </div>
+        <div
+          style={{
+            flex: "1 1 0",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {theme === "dark" ? (
+            <BsFillSunFill
               style={{
-                flex: "1 1 0",
-                display: "flex",
-                justifyContent: "center",
+                fontSize: "16px",
+                cursor: "pointer",
+                color: "white",
               }}
-            >
-              {theme === "dark" ? (
-                <BsFillSunFill
-                  style={{
-                    fontSize: "16px",
-                    cursor: "pointer",
-                    color: "white",
-                  }}
-                  onClick={() => setTheme("light")}
-                ></BsFillSunFill>
-              ) : (
-                <FaMoon
-                  style={{
-                    fontSize: "16px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setTheme("dark")}
-                ></FaMoon>
-              )}
-
-              {/* <BsFillSunFill
-                style={{
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              ></BsFillSunFill> */}
-            </div>
-            <p
-              className="sign-out"
-              style={{ flex: "1 1 0", textAlign: "end" }}
-              onClick={logout}
-            >
+              onClick={() => setTheme("light")}
+            ></BsFillSunFill>
+          ) : (
+            <FaMoon
+              style={{
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+              onClick={() => setTheme("dark")}
+            ></FaMoon>
+          )}
+        </div>
+        <div style={{ flex: "1 1 0", textAlign: "end" }}>
+          {window.walletConnection.isSignedIn() && (
+            <p className="sign-out" onClick={logout}>
               Sign out
             </p>
-          </>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="main">
