@@ -4,6 +4,7 @@ import { login, logout } from "./utils";
 import "./global.css";
 import BN from "bn.js";
 import "./home.css";
+import "./modal.css"
 import { FaDiscord, FaTwitter, FaMoon } from "react-icons/fa";
 import { BsFillSunFill } from "react-icons/bs";
 
