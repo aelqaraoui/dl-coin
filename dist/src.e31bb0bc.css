@@ -19,6 +19,24 @@ html {
   line-height: 1.3; */
 }
 
+:root {
+  --background: #efefef;
+  --background-secondary: #aaa;
+  --background-terciary: white;
+  --background-accent: #444;
+  --background-smooth: #eaeaea;
+  --text-primary: black;
+  --text-secondary: white;
+  --text-terciary: #757373;
+}
+
+[data-theme="dark"] {
+  --background: black;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}
+
 body {
   margin: 0;
 }
@@ -240,7 +258,7 @@ aside footer *:last-child {
 } */
 
 .container {
-  background-color: #efefef;
+  background-color: var(--background);
   min-height: 100vh;
 }
 
@@ -332,7 +350,7 @@ aside footer *:last-child {
 
 .App {
   text-align: center;
-  background-color: white;
+  background-color: var(--background-terciary);
   height: 100%;
   padding: 16px;
   border-radius: 4px;
@@ -363,38 +381,38 @@ button {
 }
 
 .chip.active {
-  background-color: #444;
+  background-color: var(--background-accent);
   border-color: #c3c2c2;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
-  color: white;
+  color: var(--text-secondary);
 }
 
 .chip:hover,
 .chip:focus {
-  background-color: #444;
-  color: white;
+  background-color: var(--background-accent);
+  color: var(--text-secondary);
 }
 
 .chip:active:focus {
-  background-color: #444;
+  background-color: var(--background-accent);
 }
 
 .chip {
   transition: all 0.3s ease-in-out;
-  background-color: #fff;
+  background-color: var(--background-terciary);
   border-radius: 30px;
   border: 1px solid #d3d2d2;
   display: inline-flex;
   align-items: center;
   padding: 6px 8px 6px 8px;
-  color: #757373;
+  color: var(--text-terciary);
 }
 
 .double-btn {
   margin-top: 36px;
   width: 100%;
-  background-color: #aaa;
-  color: white;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
   border-radius: 4px;
   padding: 12px;
   cursor: pointer;
@@ -405,7 +423,7 @@ button {
 }
 
 .double-btn.active:hover {
-  background-color: #444;
+  background-color: var(--background-accent);
 }
 
 .near-amount-wrapper {
@@ -416,17 +434,17 @@ button {
 .near-amount {
   padding: 8px;
   text-align: center;
-  background-color: #eaeaea;
+  background-color: var(--background-smooth);
   border-radius: 4px;
   font-size: 18px;
-  color: #757373;
+  color: var(--text-terciary);
   cursor: pointer;
 }
 
 .near-amount:hover,
 .near-amount.active {
-  background-color: #444;
-  color: white;
+  background-color: var(--background-accent);
+  color: var(--text-secondary);
 }
 
 .near-amount input {
@@ -466,7 +484,7 @@ button {
 
 .modal-main {
   position: fixed;
-  background: white;
+  background: var(--background-terciary);
   width: 45%;
   max-height: 90%;
   top: 50%;
@@ -505,8 +523,8 @@ button {
 .double-btn {
   margin-top: 36px;
   width: 100%;
-  background-color: #aaa;
-  color: white;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
   border-radius: 4px;
   padding: 12px;
   cursor: pointer;
@@ -517,7 +535,7 @@ button {
 }
 
 .double-btn.active:hover {
-  background-color: #444;
+  background-color: var(--background-accent);
 }
 
 @media only screen and (max-width: 998px) {

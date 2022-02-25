@@ -11,7 +11,7 @@
 
 .modal-main {
   position: fixed;
-  background: white;
+  background: var(--background-terciary);
   width: 45%;
   max-height: 90%;
   top: 50%;
@@ -50,8 +50,8 @@
 .double-btn {
   margin-top: 36px;
   width: 100%;
-  background-color: #aaa;
-  color: white;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
   border-radius: 4px;
   padding: 12px;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 .double-btn.active:hover {
-  background-color: #444;
+  background-color: var(--background-accent);
 }
 
 @media only screen and (max-width: 998px) {

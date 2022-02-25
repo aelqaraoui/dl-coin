@@ -1,5 +1,5 @@
 .container {
-  background-color: #efefef;
+  background-color: var(--background);
   min-height: 100vh;
 }
 
