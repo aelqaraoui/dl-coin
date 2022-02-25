@@ -13,10 +13,8 @@ const { networkId } = getConfig("testnet");
 import * as nearAPI from "near-api-js";
 const { utils, connect, providers } = nearAPI;
 
-import Lottie from "react-lottie";
 import animationData from "./lotties/coins";
 import CoinContainer from "./CoinContainer";
-import Modal from "./Modal";
 
 export default function App() {
   function clicked1N() {
