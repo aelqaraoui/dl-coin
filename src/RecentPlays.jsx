@@ -57,6 +57,8 @@ const RecentPlays = () => {
       });
   }, []);
 
+  if (recentPlays.length < 1) return <></>;
+
   return (
     <div className="recent-plays">
       <p style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "36px" }}>
