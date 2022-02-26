@@ -306,20 +306,45 @@ export default function App() {
               </p>
               <p className="modal-question">Where can I track transactions?</p>
               <p className="modal-answer">
-                House Wallet:
-                https://explorer.near.org/accounts/house.woothugg.near
+                House Wallet:{" "}
+                <a
+                  className="faq-link"
+                  href="https://explorer.near.org/accounts/house.woothugg.near"
+                  target={"_blank"}
+                >
+                  https://explorer.near.org/accounts/house.woothugg.near
+                </a>
               </p>
               <p className="modal-answer">
-                Fee Wallet:
-                https://explorer.mainnet.near.org/accounts/fees.woothugg.near
+                Fee Wallet:{" "}
+                <a
+                  className="faq-link"
+                  href="https://explorer.mainnet.near.org/accounts/fees.woothugg.near"
+                  target={"_blank"}
+                >
+                  https://explorer.mainnet.near.org/accounts/fees.woothugg.near
+                </a>
               </p>
               <p className="modal-answer">
-                Team Wallet:
-                https://explorer.mainnet.near.org/accounts/team.woothugg.near
+                Team Wallet:{" "}
+                <a
+                  className="faq-link"
+                  href="https://explorer.mainnet.near.org/accounts/team.woothugg.near"
+                  target={"_blank"}
+                >
+                  https://explorer.mainnet.near.org/accounts/team.woothugg.near
+                </a>
               </p>
               <p className="modal-answer">
                 If you still have questions, join our discord and talk to the
-                team. https://discord.com/invite/dQfQ9gYqKb
+                team.{" "}
+                <a
+                  className="faq-link"
+                  href="https://discord.com/invite/dQfQ9gYqKb"
+                  target={"_blank"}
+                >
+                  https://discord.com/invite/dQfQ9gYqKb
+                </a>
               </p>
             </div>
 
