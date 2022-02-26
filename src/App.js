@@ -4,7 +4,7 @@ import { login, logout } from "./utils";
 import "./global.css";
 import BN from "bn.js";
 import "./home.css";
-import "./modal.css"
+import "./modal.css";
 import { FaDiscord, FaTwitter, FaMoon } from "react-icons/fa";
 import { BsFillSunFill } from "react-icons/bs";
 
@@ -16,6 +16,7 @@ const { utils, connect, providers } = nearAPI;
 
 import animationData from "./lotties/coins";
 import CoinContainer from "./CoinContainer";
+import RecentPlays from "./RecentPlays";
 
 export default function App() {
   function clicked1N() {
@@ -191,6 +192,8 @@ export default function App() {
           <div style={{ marginTop: "24px" }}>
             <CoinContainer flipStatus={status} />
           </div>
+
+          <RecentPlays />
 
           <div
             style={{
