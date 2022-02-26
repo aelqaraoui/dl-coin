@@ -49,7 +49,7 @@ const RecentPlays = () => {
             return {
               amount: Math.trunc(elm.amount),
               time: timeDifference(new Date(), new Date(elm.timestamp)),
-              accountId: elm.signer_id,
+              accountId: elm.signer_id ?? "default.near",
               outcome: elm.outcome ? "won" : "lost",
             };
           })
@@ -67,9 +67,8 @@ const RecentPlays = () => {
       <ul className="list-wrapper">
         {recentPlays?.map((elm, index) => (
           <li className="elm" key={index}>
-            {/* {elm.accountId}  */}
             <div>
-              test.near flipped {elm.amount} and
+              {elm.accountId} flipped {elm.amount} and
               <span className={`outcome ${elm.outcome}`}> {elm.outcome}</span>.
               <div style={{ fontSize: "12px", textAlign: "end" }}>
                 {elm.time}.
