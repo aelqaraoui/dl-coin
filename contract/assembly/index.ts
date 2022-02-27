@@ -24,8 +24,8 @@ export class Lottery {
 
     let amount: Amount = u128.div(u128.mul(Context.attachedDeposit, u128.from(1000)), u128.from(1035))
 
-    if (amount > toYocto(2)) {
-      amount = toYocto(2);
+    if (amount > toYocto(5)) {
+      amount = toYocto(5);
     }
     logging.log("Wagering : " + amount.toString());
 
@@ -51,7 +51,6 @@ export class Lottery {
     }
     logging.log("You lost!");
     return false;
-
   }
 
   @mutateState()
