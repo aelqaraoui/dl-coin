@@ -13,6 +13,8 @@ const RecentPlays = () => {
 
     var elapsed = current - previous;
 
+    if (!previous) return "";
+
     if (elapsed < msPerMinute) {
       const seconds = Math.round(elapsed / 1000);
       return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
@@ -48,7 +50,10 @@ const RecentPlays = () => {
           jsonResponse.data.map((elm) => {
             return {
               amount: Math.trunc(elm.amount),
-              time: timeDifference(new Date(), new Date(elm.timestamp)),
+              time: timeDifference(
+                new Date(),
+                elm.timestamp ? new Date(elm.timestamp) : null
+              ),
               accountId: elm.signer_id ?? "default.near",
               outcome: elm.outcome ? "won" : "lost",
             };
@@ -71,7 +76,7 @@ const RecentPlays = () => {
               {elm.accountId} flipped {elm.amount} Ⓝ and
               <span className={`outcome ${elm.outcome}`}> {elm.outcome}</span>.
               <div style={{ fontSize: "12px", textAlign: "end" }}>
-                {elm.time}.
+                {elm.time}
               </div>
             </div>
           </li>
