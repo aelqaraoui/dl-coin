@@ -78,7 +78,7 @@
 }
 
 .dropdown-content .option:hover {
-  background-color: var(--background-leaderboard);
+  background-color: var(--background);
   border-radius: 4px;
 }
 
