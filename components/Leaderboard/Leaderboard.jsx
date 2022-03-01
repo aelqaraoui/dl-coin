@@ -1,22 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { FaTrophy } from "react-icons/fa";
-import { RiCoinLine } from "react-icons/ri";
+import { BsFillSunFill } from "react-icons/bs";
+import { FaMoon, FaTrophy } from "react-icons/fa";
+import { MdOutlineOpenInNew } from "react-icons/md";
+import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
+import coinAnimation from "./../../src/lotties/coinFlip.json";
 import "./../Home/home.css";
 import "./leaderboard.css";
-import coinAnimation from "./../../src/lotties/coinFlip.json";
+
+const LeadTypes = [
+  {
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/net-gain",
+    label: "Net Gains",
+    value: "net_gains",
+  },
+
+  {
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/streak",
+    label: "Streaks",
+    value: "streaks",
+  },
+  {
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/volume",
+    label: "Volume",
+    value: "volume",
+  },
+];
 
 const LeaderBoard = () => {
   const [stats, setStats] = useState(null);
-  const [leaderboard, setLeaderboard] = useState([]);
-  const theme = localStorage.getItem("theme");
+  const [leadNetGain, setLeadNetGain] = useState([]);
+  const [leadVolume, setLeadVolume] = useState([]);
+  const [leadStreak, setLeadStreak] = useState([]);
+  const [selectedLeadboard, setSelectedLeadboard] = useState(LeadTypes[0]);
+  const [controlState, setControlState] = useState(false);
+  const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+
+  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
 
   const formatNumber = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   useEffect(() => {
-    fetch("https://indexer-dl.herokuapp.com/api/leaderboard")
+    fetch(selectedLeadboard.api)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -36,9 +65,33 @@ const LeaderBoard = () => {
           total_volume,
           total_won,
         });
-        setLeaderboard(leaderboard);
+        setLeadNetGain(leaderboard);
+        setControlState(true);
       });
   }, []);
+
+  useEffect(() => {
+    if (!controlState) return;
+    fetch(selectedLeadboard.api)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((jsonResponse) => {
+        if (selectedLeadboard.value === "net_gains") {
+          setLeadNetGain(jsonResponse.leaderboard);
+        } else if (selectedLeadboard.value === "streaks") {
+          setLeadStreak(jsonResponse.leaderboard);
+        } else {
+          setLeadVolume(jsonResponse.leaderboard);
+        }
+      });
+  }, [selectedLeadboard]);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
     <div className="container" data-theme={theme}>
@@ -53,7 +106,53 @@ const LeaderBoard = () => {
           <FaTrophy />
           <p>LEADERBOARD</p>
         </div>
+        <div
+          style={{
+            flex: "1 1 0",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {theme === "dark" ? (
+            <BsFillSunFill
+              style={{
+                fontSize: "16px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => setTheme("light")}
+            ></BsFillSunFill>
+          ) : (
+            <FaMoon
+              style={{
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+              onClick={() => setTheme("dark")}
+            ></FaMoon>
+          )}
+        </div>
       </div>
+      <div className="degen-title">
+        <h3 style={{ marginBottom: "8px" }}>DEGEN Lizards Coin Flip</h3>
+        <div className="link">
+          <Link
+            to="/"
+            target="_blank"
+            style={{
+              width: "fit-content",
+              cursor: "pointer",
+              color: "inherit",
+            }}
+          >
+            <div style={{ fontSize: "14px", textDecoration: "underline" }}>
+              https://degenlizards.com
+            </div>
+          </Link>
+          <MdOutlineOpenInNew />
+        </div>
+      </div>
+
       <div className="leader-wrapper">
         <div>
           <div className="coin-mobile">
@@ -132,7 +231,47 @@ const LeaderBoard = () => {
         </div>
         <div style={{ flex: "2 2 0" }}>
           <div className="board">
-            <div style={{ fontWeight: "bold" }}>Top Degen Lizards</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ fontWeight: "bold" }}>Top Degen Lizards</div>
+              <div className="dropdown">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShowTypeDropdown(!showTypeDropdown)}
+                >
+                  <span>{selectedLeadboard.label}</span>
+                  <RiArrowDropDownLine style={{ fontSize: "16px" }} />
+                </div>
+
+                {showTypeDropdown && (
+                  <div className="dropdown-content">
+                    {LeadTypes.map((type) => (
+                      <div
+                        key={type.value}
+                        className="option"
+                        onClick={() => {
+                          setShowTypeDropdown(!showTypeDropdown);
+                          setSelectedLeadboard(type);
+                        }}
+                      >
+                        {type.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
             <ul
               style={{
                 padding: 0,
@@ -143,24 +282,72 @@ const LeaderBoard = () => {
                 gap: "4px",
               }}
             >
-              {leaderboard.map((lead, index) => (
-                <li
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "14px",
-                    wordBreak: "break-all",
-                  }}
-                  key={index}
-                >
-                  <div>
-                    {index + 1}. {lead.signer_id}
-                  </div>
-                  <div style={{ whiteSpace: "nowrap", fontWeight: "bold" }}>
-                    {formatNumber(lead.net)} Ⓝ
-                  </div>
-                </li>
-              ))}
+              {selectedLeadboard.value === "net_gains" &&
+                leadNetGain.map((lead, index) => (
+                  <li
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                      wordBreak: "break-all",
+                    }}
+                    key={index}
+                  >
+                    <div>
+                      {index + 1}. {lead.signer_id}
+                    </div>
+                    <div style={{ whiteSpace: "nowrap", fontWeight: "bold" }}>
+                      {formatNumber(lead.net)} Ⓝ
+                    </div>
+                  </li>
+                ))}
+              {selectedLeadboard.value === "volume" &&
+                leadVolume.map((lead, index) => (
+                  <li
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                      wordBreak: "break-all",
+                    }}
+                    key={index}
+                  >
+                    <div>
+                      {index + 1}. {lead.signer_id}
+                    </div>
+                    <div style={{ whiteSpace: "nowrap", fontWeight: "bold" }}>
+                      {formatNumber(lead.volume)} Ⓝ
+                    </div>
+                  </li>
+                ))}
+              {selectedLeadboard.value === "streaks" &&
+                leadStreak.map((lead, index) => (
+                  <li
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontSize: "14px",
+                      wordBreak: "break-all",
+                    }}
+                    key={index}
+                  >
+                    <div>
+                      {index + 1}. {lead.signer_id}
+                    </div>
+                    <div
+                      style={{
+                        whiteSpace: "nowrap",
+                        fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <div>{formatNumber(lead.streak)}</div>
+                      <RiCoinLine />
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
