@@ -38,7 +38,7 @@ const RecentPlays = () => {
 
   useEffect(() => {
     fetch(
-      "https://indexer.havendao.community/api/house.woothugg.near?api_key=bd2c5be14f2f3bf2da4ffdb4&limit=10"
+      "https://indexer-dl.herokuapp.com/api/latest_transactions"
     )
       .then((response) => {
         if (response.ok) {

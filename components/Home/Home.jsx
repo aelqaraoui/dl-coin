@@ -12,7 +12,7 @@ import RecentPlays from "../RecentPlays/RecentPlays";
 import { logout } from "./../../src/utils";
 import "./home.css";
 
-const { networkId } = getConfig("testnet");
+const { networkId } = getConfig("mainnet");
 
 const { utils, connect, providers } = nearAPI;
 
