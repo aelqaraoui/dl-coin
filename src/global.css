@@ -25,6 +25,7 @@ html {
   --background-terciary: white;
   --background-accent: #444;
   --background-smooth: #eaeaea;
+  --background-leaderboard: white;
   --text-primary: black;
   --text-secondary: white;
   --text-terciary: #757373;
@@ -33,13 +34,11 @@ html {
 
 [data-theme="dark"] {
   --background: #0f172a;
-  /* --text-primary: white;
-  --text-secondary: grey;
-  --accent: darkred; */
   --background-secondary: #aaa;
   --background-terciary: #535e70;
   --background-accent: #444;
   --background-smooth: #eaeaea;
+  --background-leaderboard: #1e293b;
   --text-primary: white;
   --text-secondary: white;
   --text-terciary: black;

@@ -1,0 +1,47 @@
+.stats-card {
+  border: 0.1px solid var(--text-primary);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  background-color: var(--background-leaderboard);
+}
+
+.board {
+  border: 0.1px solid var(--text-primary);
+  border-radius: 4px;
+  padding: 16px;
+  background-color: var(--background-leaderboard);
+}
+
+.leader-wrapper {
+  display: flex;
+  width: 80%;
+  color: var(--text-primary);
+  margin: 48px auto;
+  gap: 24px;
+}
+
+.coin-mobile {
+  display: none;
+}
+
+.coin-desktop {
+  display: block;
+}
+
+@media only screen and (max-width: 800px) {
+  .leader-wrapper {
+    flex-direction: column;
+    margin: 12px auto 0;
+  }
+
+  .coin-mobile {
+    display: block;
+  }
+
+  .coin-desktop {
+    display: none;
+  }
+}

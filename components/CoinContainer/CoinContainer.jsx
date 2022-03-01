@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Lottie from "react-lottie";
-import winAnimation from "./lotties/win.json";
-import coinAnimation from "./lotties/coinFlip.json";
-import lostAnimation from "./lotties/lost.json";
-import "./coinContainer.css";
-import { login } from "./utils";
 import BN from "bn.js";
+import React, { useState } from "react";
+import Lottie from "react-lottie";
+import "./coinContainer.css";
+import coinAnimation from "../../src/lotties/coinFlip.json";
+import lostAnimation from "../../src/lotties/lost.json";
+import winAnimation from "../../src/lotties/win.json";
+import { login } from "../../src/utils";
 
 const CoinContainer = ({ flipStatus }) => {
   const [selectedSide, setSelectedSide] = useState("");

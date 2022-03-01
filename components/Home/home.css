@@ -67,6 +67,21 @@
   cursor: pointer;
 }
 
+.leaderboard-btn {
+  background-color: var(--background-secondary);
+  color: white;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.leaderboard-btn:hover {
+  background-color: var(--background-accent);
+}
+
 @media only screen and (max-width: 468px) {
   .main {
     margin-left: 12px;
@@ -95,5 +110,18 @@
 
   .header .first-col p {
     word-break: break-all;
+  }
+
+  .leaderboard-btn {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .leaderboard-btn:hover {
+    background-color: transparent;
+  }
+
+  .leaderboard-btn .lead-title {
+    display: none;
   }
 }
