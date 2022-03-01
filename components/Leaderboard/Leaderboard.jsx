@@ -94,7 +94,7 @@ const LeaderBoard = () => {
   }, [theme]);
 
   return (
-    <div className="container" data-theme={theme}>
+    <div className="container" style={{paddingBottom: "24px"}} data-theme={theme}>
       <div className="header">
         <div
           style={{
