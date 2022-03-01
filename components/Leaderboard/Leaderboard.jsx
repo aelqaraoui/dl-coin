@@ -23,7 +23,6 @@ const LeaderBoard = () => {
         }
       })
       .then((jsonResponse) => {
-        console.log(jsonResponse);
         const {
           total_flips,
           total_loss,

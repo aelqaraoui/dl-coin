@@ -42,7 +42,8 @@ const Home = () => {
 
     const feesAccount = await near.account("fees.woothugg.near");
     setFeesBalance(
-      (await feesAccount.getAccountBalance()).available / 1000000000000000000000000
+      (await feesAccount.getAccountBalance()).available /
+        1000000000000000000000000
     );
 
     const provider = new providers.JsonRpcProvider(
@@ -115,10 +116,7 @@ const Home = () => {
             style={{ textDecoration: "none" }}
             target="_blank"
           >
-            <div
-              className="leaderboard-btn"
-              onClick={() => console.log("jojo")}
-            >
+            <div className="leaderboard-btn">
               <FaTrophy />
               <span className="lead-title">LEADERBOARD</span>
             </div>
