@@ -11,31 +11,47 @@ import "./leaderboard.css";
 
 const LeadTypes = [
   {
-    api: "https://indexer-dl.herokuapp.com/api/leaderboard/net-gain",
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/net-gain/",
     label: "Net Gains",
     value: "net_gains",
   },
-
   {
-    api: "https://indexer-dl.herokuapp.com/api/leaderboard/streak",
-    label: "Streaks",
-    value: "streaks",
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/win-streak/",
+    label: "Win Streaks",
+    value: "win_streaks",
   },
   {
-    api: "https://indexer-dl.herokuapp.com/api/leaderboard/volume",
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/loss-streak/",
+    label: "Loss Streaks",
+    value: "loss_streaks",
+  },
+  {
+    api: "https://indexer-dl.herokuapp.com/api/leaderboard/volume/",
     label: "Volume",
     value: "volume",
   },
 ];
 
+const getMonthTimestamp = () => {
+  var now = new Date();
+  var startOfDay = new Date(now.getFullYear(), now.getMonth());
+  var timestamp = startOfDay / 1;
+
+  return timestamp;
+};
+
 const LeaderBoard = () => {
   const [stats, setStats] = useState(null);
   const [leadNetGain, setLeadNetGain] = useState([]);
   const [leadVolume, setLeadVolume] = useState([]);
-  const [leadStreak, setLeadStreak] = useState([]);
+  const [winStreak, setWinStreak] = useState([]);
+  const [lossStreak, setLossStreak] = useState([]);
   const [selectedLeadboard, setSelectedLeadboard] = useState(LeadTypes[0]);
   const [controlState, setControlState] = useState(false);
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+  const [selectedTime, setSelectedTime] = useState("current_month");
+  const [monthTimestamp, setMonthTimestamp] = useState(getMonthTimestamp);
+  const [isLoading, setIsLoading] = useState(false);
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
@@ -45,7 +61,8 @@ const LeaderBoard = () => {
   };
 
   useEffect(() => {
-    fetch(selectedLeadboard.api)
+    setIsLoading(true);
+    fetch(`${selectedLeadboard.api}${monthTimestamp}`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -67,12 +84,14 @@ const LeaderBoard = () => {
         });
         setLeadNetGain(leaderboard);
         setControlState(true);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
     if (!controlState) return;
-    fetch(selectedLeadboard.api)
+    setIsLoading(true);
+    fetch(`${selectedLeadboard.api}${monthTimestamp}`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -81,26 +100,34 @@ const LeaderBoard = () => {
       .then((jsonResponse) => {
         if (selectedLeadboard.value === "net_gains") {
           setLeadNetGain(jsonResponse.leaderboard);
-        } else if (selectedLeadboard.value === "streaks") {
-          setLeadStreak(jsonResponse.leaderboard);
+        } else if (selectedLeadboard.value === "win_streaks") {
+          setWinStreak(jsonResponse.leaderboard);
+        } else if (selectedLeadboard.value === "loss_streaks") {
+          setLossStreak(jsonResponse.leaderboard);
         } else {
           setLeadVolume(jsonResponse.leaderboard);
         }
-      });
-  }, [selectedLeadboard]);
+      })
+      .finally(() => setIsLoading(false));
+  }, [selectedLeadboard, selectedTime]);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   return (
-    <div className="container" style={{paddingBottom: "24px"}} data-theme={theme}>
-      <div className="header">
+    <div
+      className="container"
+      style={{ paddingBottom: "24px" }}
+      data-theme={theme}
+    >
+      <div className="header" style={{ gap: 0 }}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "8px",
+            flex: "1 1 0",
           }}
         >
           <FaTrophy />
@@ -110,7 +137,6 @@ const LeaderBoard = () => {
           style={{
             flex: "1 1 0",
             display: "flex",
-            justifyContent: "center",
           }}
         >
           {theme === "dark" ? (
@@ -236,39 +262,81 @@ const LeaderBoard = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                flexWrap: "wrap",
+                gap: "16px",
               }}
             >
               <div style={{ fontWeight: "bold" }}>Top Degen Lizards</div>
-              <div className="dropdown">
+              <div
+                style={{
+                  display: "flex",
+                  gap: "16px",
+                  whiteSpace: "nowrap",
+                  flexWrap: "wrap",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
+                    gap: "8px",
+                    fontSize: "12px",
                     alignItems: "center",
-                    gap: "6px",
-                    cursor: "pointer",
                   }}
-                  onClick={() => setShowTypeDropdown(!showTypeDropdown)}
                 >
-                  <span>{selectedLeadboard.label}</span>
-                  <RiArrowDropDownLine style={{ fontSize: "16px" }} />
-                </div>
-
-                {showTypeDropdown && (
-                  <div className="dropdown-content">
-                    {LeadTypes.map((type) => (
-                      <div
-                        key={type.value}
-                        className="option"
-                        onClick={() => {
-                          setShowTypeDropdown(!showTypeDropdown);
-                          setSelectedLeadboard(type);
-                        }}
-                      >
-                        {type.label}
-                      </div>
-                    ))}
+                  <div
+                    className={`data-toggle ${
+                      selectedTime === "all" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setMonthTimestamp(0);
+                      setSelectedTime("all");
+                    }}
+                  >
+                    All
                   </div>
-                )}
+                  <div
+                    className={`data-toggle ${
+                      selectedTime === "current_month" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setMonthTimestamp(getMonthTimestamp);
+                      setSelectedTime("current_month");
+                    }}
+                  >
+                    Current Month
+                  </div>
+                </div>
+                <div className="dropdown">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setShowTypeDropdown(!showTypeDropdown)}
+                  >
+                    <span>{selectedLeadboard.label}</span>
+                    <RiArrowDropDownLine style={{ fontSize: "16px" }} />
+                  </div>
+
+                  {showTypeDropdown && (
+                    <div className="dropdown-content">
+                      {LeadTypes.map((type) => (
+                        <div
+                          key={type.value}
+                          className="option"
+                          onClick={() => {
+                            setShowTypeDropdown(!showTypeDropdown);
+                            setSelectedLeadboard(type);
+                          }}
+                        >
+                          {type.label}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -282,74 +350,123 @@ const LeaderBoard = () => {
                 gap: "4px",
               }}
             >
-              {selectedLeadboard.value === "net_gains" &&
-                leadNetGain.map((lead, index) => (
-                  <li
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "14px",
-                      wordBreak: "break-all",
-                    }}
-                    key={index}
-                  >
-                    <div>
-                      {index + 1}. {lead.signer_id}
-                    </div>
-                    <div style={{ whiteSpace: "nowrap", fontWeight: "bold" }}>
-                      {formatNumber(lead.net)} Ⓝ
-                    </div>
-                  </li>
-                ))}
-              {selectedLeadboard.value === "volume" &&
-                leadVolume.map((lead, index) => (
-                  <li
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "14px",
-                      wordBreak: "break-all",
-                    }}
-                    key={index}
-                  >
-                    <div>
-                      {index + 1}. {lead.signer_id}
-                    </div>
-                    <div style={{ whiteSpace: "nowrap", fontWeight: "bold" }}>
-                      {formatNumber(lead.volume)} Ⓝ
-                    </div>
-                  </li>
-                ))}
-              {selectedLeadboard.value === "streaks" &&
-                leadStreak.map((lead, index) => (
-                  <li
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "14px",
-                      wordBreak: "break-all",
-                    }}
-                    key={index}
-                  >
-                    <div>
-                      {index + 1}. {lead.signer_id}
-                    </div>
-                    <div
-                      style={{
-                        whiteSpace: "nowrap",
-                        fontWeight: "bold",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
-                      <div>{formatNumber(lead.streak)}</div>
-                      <RiCoinLine />
-                    </div>
-                  </li>
-                ))}
+              {isLoading ? (
+                <p style={{ textAlign: "center" }}>Loading...</p>
+              ) : (
+                <>
+                  {selectedLeadboard.value === "net_gains" &&
+                    leadNetGain.map((lead, index) => (
+                      <li
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: "14px",
+                          wordBreak: "break-all",
+                        }}
+                        key={index}
+                      >
+                        <div>
+                          {index + 1}. {lead.signer_id}
+                        </div>
+                        <div
+                          style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
+                        >
+                          {formatNumber(lead.net)} Ⓝ
+                        </div>
+                      </li>
+                    ))}
+                  {selectedLeadboard.value === "volume" &&
+                    leadVolume.map((lead, index) => (
+                      <li
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: "14px",
+                          wordBreak: "break-all",
+                        }}
+                        key={index}
+                      >
+                        <div>
+                          {index + 1}. {lead.signer_id}
+                        </div>
+                        <div
+                          style={{ whiteSpace: "nowrap", fontWeight: "bold" }}
+                        >
+                          {formatNumber(lead.volume)} Ⓝ
+                        </div>
+                      </li>
+                    ))}
+                  {selectedLeadboard.value === "win_streaks" &&
+                    winStreak.map((lead, index) => (
+                      <li
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: "14px",
+                          wordBreak: "break-all",
+                        }}
+                        key={index}
+                      >
+                        <div>
+                          {index + 1}. {lead.signer_id}
+                        </div>
+                        <div
+                          style={{
+                            whiteSpace: "nowrap",
+                            fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
+                          <div>{formatNumber(lead.streak)}</div>
+                          <RiCoinLine />
+                        </div>
+                      </li>
+                    ))}
+                  {selectedLeadboard.value === "loss_streaks" &&
+                    lossStreak.map((lead, index) => (
+                      <li
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: "14px",
+                          wordBreak: "break-all",
+                        }}
+                        key={index}
+                      >
+                        <div>
+                          {index + 1}. {lead.signer_id}
+                        </div>
+                        <div
+                          style={{
+                            whiteSpace: "nowrap",
+                            fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
+                          <div>{formatNumber(lead.streak)}</div>
+                          <RiCoinLine />
+                        </div>
+                      </li>
+                    ))}
+                </>
+              )}
             </ul>
           </div>
+          <p style={{ fontSize: "12px" }}>
+            Powered by{" "}
+            <span
+              style={{ textDecoration: "underline", cursor: "pointer" }}
+              onClick={() =>
+                window.open("https://havendao.community/", "_blank")
+              }
+            >
+              Haven
+            </span>
+          </p>
         </div>
       </div>
     </div>

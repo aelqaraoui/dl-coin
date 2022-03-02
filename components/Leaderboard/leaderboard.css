@@ -13,6 +13,7 @@
   border-radius: 4px;
   padding: 16px;
   background-color: var(--background-leaderboard);
+  min-height: 300px;
 }
 
 .degen-title {
@@ -80,6 +81,19 @@
 .dropdown-content .option:hover {
   background-color: var(--background);
   border-radius: 4px;
+}
+
+.data-toggle {
+  cursor: pointer;
+  border: 0.1px solid var(--text-primary);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  background-color: var(--background-terciary);
+}
+
+.data-toggle.active {
+  background-color: var(--background);
 }
 
 @media only screen and (max-width: 800px) {
