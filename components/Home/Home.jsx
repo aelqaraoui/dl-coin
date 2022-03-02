@@ -145,7 +145,7 @@ const Home = () => {
             <div>
               Fees Balance:{" "}
               <span style={{ color: "green", fontWeight: "bold" }}>
-                {feesBalance}
+                {feesBalance} Ⓝ
               </span>
             </div>
           }
