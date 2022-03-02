@@ -62,7 +62,7 @@ const LeaderBoard = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${selectedLeadboard.api}${monthTimestamp}`)
+    fetch(`${selectedLeadboard.api}0`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -82,7 +82,15 @@ const LeaderBoard = () => {
           total_volume,
           total_won,
         });
-        setLeadNetGain(leaderboard);
+      });
+    fetch(`${selectedLeadboard.api}${monthTimestamp}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((jsonResponse) => {
+        setLeadNetGain(jsonResponse.leaderboard);
         setControlState(true);
       })
       .finally(() => setIsLoading(false));
