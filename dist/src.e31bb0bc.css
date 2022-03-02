@@ -413,6 +413,7 @@ body {
   .leaderboard-btn {
     background-color: transparent;
     padding: 0;
+    color: var(--text-primary)
   }
 
   .leaderboard-btn:hover {

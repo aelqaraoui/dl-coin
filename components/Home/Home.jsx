@@ -33,10 +33,13 @@ const Home = () => {
   }, [theme]);
 
   useEffect(async () => {
-    setBalance(
-      (await window.walletConnection._connectedAccount.getAccountBalance())
-        .available / 1000000000000000000000000
-    );
+    if (window.walletConnection.isSignedIn()){
+      setBalance(
+        (await window.walletConnection._connectedAccount.getAccountBalance())
+          .available / 1000000000000000000000000
+      );
+    }
+
 
     const near = await connect(window.walletConnection._near.config);
 
@@ -138,14 +141,14 @@ const Home = () => {
             <CoinContainer flipStatus={status} />
           </div>
 
-          {feesBalance > 0 && (
+          {
             <div>
               Fees Balance:{" "}
               <span style={{ color: "green", fontWeight: "bold" }}>
                 {feesBalance}
               </span>
             </div>
-          )}
+          }
 
           <RecentPlays />
 
