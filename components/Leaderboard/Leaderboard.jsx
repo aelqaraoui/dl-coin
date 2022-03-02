@@ -33,15 +33,28 @@ const LeadTypes = [
 ];
 
 const getMonthTimestamp = () => {
-  var now = new Date();
-  var startOfDay = new Date(now.getFullYear(), now.getMonth());
-  var timestamp = startOfDay / 1;
+  let now = new Date();
+  return new Date(now.getFullYear(), now.getMonth()) / 1;
+};
 
-  return timestamp;
+const getDayTimestamp = () => {
+  let now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate()) / 1;
 };
 
 const LeaderBoard = () => {
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState({
+    selected: "all",
+    timestamp: "0",
+    total_flips: 0,
+    total_loss: 0,
+    total_volume: 0,
+    total_won: 0,
+  });
+  const [auxStats, setAuxStats] = useState({
+    selected: stats.selected,
+    timestamp: stats.timestamp,
+  });
   const [leadNetGain, setLeadNetGain] = useState([]);
   const [leadVolume, setLeadVolume] = useState([]);
   const [winStreak, setWinStreak] = useState([]);
@@ -57,7 +70,7 @@ const LeaderBoard = () => {
   const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
 
   const formatNumber = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
   };
 
   useEffect(() => {
@@ -69,15 +82,11 @@ const LeaderBoard = () => {
         }
       })
       .then((jsonResponse) => {
-        const {
-          total_flips,
-          total_loss,
-          total_volume,
-          total_won,
-          leaderboard,
-        } = jsonResponse;
+        const { total_flips, total_loss, total_volume, total_won } =
+          jsonResponse;
         setStats({
-          total_flips: total_flips,
+          ...stats,
+          total_flips,
           total_loss,
           total_volume,
           total_won,
@@ -118,6 +127,28 @@ const LeaderBoard = () => {
       })
       .finally(() => setIsLoading(false));
   }, [selectedLeadboard, selectedTime]);
+
+  useEffect(() => {
+    if (!controlState) return;
+    fetch(`${selectedLeadboard.api}${auxStats.timestamp}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((jsonResponse) => {
+        const { total_flips, total_loss, total_volume, total_won } =
+          jsonResponse;
+        setStats({
+          selected: auxStats.selected,
+          timestamp: auxStats.timestamp,
+          total_flips,
+          total_loss,
+          total_volume,
+          total_won,
+        });
+      });
+  }, [auxStats]);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -205,6 +236,56 @@ const LeaderBoard = () => {
           </div>
           <div
             style={{
+              display: "flex",
+              gap: "12px",
+              fontSize: "12px",
+              alignItems: "center",
+              flexWrap: "wrap",
+              marginBottom: "12px",
+            }}
+          >
+            <div
+              className={`data-toggle ${
+                auxStats.selected === "all" ? "active" : ""
+              }`}
+              onClick={() =>
+                setAuxStats({
+                  selected: "all",
+                  timestamp: 0,
+                })
+              }
+            >
+              All
+            </div>
+            <div
+              className={`data-toggle ${
+                auxStats.selected === "current_month" ? "active" : ""
+              }`}
+              onClick={() =>
+                setAuxStats({
+                  selected: "current_month",
+                  timestamp: getMonthTimestamp(),
+                })
+              }
+            >
+              Current Month
+            </div>
+            <div
+              className={`data-toggle ${
+                auxStats.selected === "current_day" ? "active" : ""
+              }`}
+              onClick={() =>
+                setAuxStats({
+                  selected: "current_day",
+                  timestamp: getDayTimestamp(),
+                })
+              }
+            >
+              Current Day
+            </div>
+          </div>
+          <div
+            style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
               gap: "12px",
@@ -215,7 +296,7 @@ const LeaderBoard = () => {
               <div>
                 <div style={{ fontSize: "12px" }}>Total Flips</div>
                 <div style={{ fontWeight: "bold" }}>
-                  {stats?.total_flips ? formatNumber(stats.total_flips) : 0}
+                  {formatNumber(stats.total_flips)}
                 </div>
               </div>
               <RiCoinLine />
@@ -224,7 +305,7 @@ const LeaderBoard = () => {
               <div>
                 <div style={{ fontSize: "12px" }}>Total Won</div>
                 <div style={{ fontWeight: "bold" }}>
-                  {stats?.total_won ? formatNumber(stats.total_won) : 0}
+                  {formatNumber(stats.total_won)}
                 </div>
               </div>
               <div>Ⓝ</div>
@@ -233,7 +314,7 @@ const LeaderBoard = () => {
               <div>
                 <div style={{ fontSize: "12px" }}>Total Loss</div>
                 <div style={{ fontWeight: "bold" }}>
-                  {stats?.total_loss ? formatNumber(stats.total_loss) : 0}
+                  {formatNumber(stats.total_loss)}
                 </div>
               </div>
               <div>Ⓝ</div>
@@ -242,7 +323,7 @@ const LeaderBoard = () => {
               <div>
                 <div style={{ fontSize: "12px" }}>Total Volume</div>
                 <div style={{ fontWeight: "bold" }}>
-                  {stats?.total_volume ? formatNumber(stats.total_volume) : 0}
+                  {formatNumber(stats.total_volume)}
                 </div>
               </div>
               <div>Ⓝ</div>
@@ -264,6 +345,91 @@ const LeaderBoard = () => {
           </div>
         </div>
         <div style={{ flex: "2 2 0" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              whiteSpace: "nowrap",
+              flexWrap: "wrap",
+              marginBottom: "12px",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+                fontSize: "12px",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <div
+                className={`data-toggle ${
+                  selectedTime === "all" ? "active" : ""
+                }`}
+                onClick={() => {
+                  setMonthTimestamp(0);
+                  setSelectedTime("all");
+                }}
+              >
+                All
+              </div>
+              <div
+                className={`data-toggle ${
+                  selectedTime === "current_month" ? "active" : ""
+                }`}
+                onClick={() => {
+                  setMonthTimestamp(getMonthTimestamp);
+                  setSelectedTime("current_month");
+                }}
+              >
+                Current Month
+              </div>
+              <div
+                className={`data-toggle ${
+                  selectedTime === "current_day" ? "active" : ""
+                }`}
+                onClick={() => {
+                  setMonthTimestamp(getDayTimestamp);
+                  setSelectedTime("current_day");
+                }}
+              >
+                Current Day
+              </div>
+            </div>
+            <div className="dropdown">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowTypeDropdown(!showTypeDropdown)}
+              >
+                <span>{selectedLeadboard.label}</span>
+                <RiArrowDropDownLine style={{ fontSize: "14px" }} />
+              </div>
+
+              {showTypeDropdown && (
+                <div className="dropdown-content">
+                  {LeadTypes.map((type) => (
+                    <div
+                      key={type.value}
+                      className="option"
+                      onClick={() => {
+                        setShowTypeDropdown(!showTypeDropdown);
+                        setSelectedLeadboard(type);
+                      }}
+                    >
+                      {type.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <div className="board">
             <div
               style={{
@@ -275,77 +441,6 @@ const LeaderBoard = () => {
               }}
             >
               <div style={{ fontWeight: "bold" }}>Top Degen Lizards</div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "16px",
-                  whiteSpace: "nowrap",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "8px",
-                    fontSize: "12px",
-                    alignItems: "center",
-                  }}
-                >
-                  <div
-                    className={`data-toggle ${
-                      selectedTime === "all" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setMonthTimestamp(0);
-                      setSelectedTime("all");
-                    }}
-                  >
-                    All
-                  </div>
-                  <div
-                    className={`data-toggle ${
-                      selectedTime === "current_month" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setMonthTimestamp(getMonthTimestamp);
-                      setSelectedTime("current_month");
-                    }}
-                  >
-                    Current Month
-                  </div>
-                </div>
-                <div className="dropdown">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-                  >
-                    <span>{selectedLeadboard.label}</span>
-                    <RiArrowDropDownLine style={{ fontSize: "16px" }} />
-                  </div>
-
-                  {showTypeDropdown && (
-                    <div className="dropdown-content">
-                      {LeadTypes.map((type) => (
-                        <div
-                          key={type.value}
-                          className="option"
-                          onClick={() => {
-                            setShowTypeDropdown(!showTypeDropdown);
-                            setSelectedLeadboard(type);
-                          }}
-                        >
-                          {type.label}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
             </div>
 
             <ul
