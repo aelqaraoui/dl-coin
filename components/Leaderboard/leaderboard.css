@@ -69,7 +69,7 @@
   left: 50%;
   transform: translateX(-50%);
   top: 33px;
-  width: 100px;
+  /* width: 100px; */
   text-align: center;
 }
 
