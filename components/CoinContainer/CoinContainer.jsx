@@ -41,8 +41,8 @@ const CoinContainer = ({ flipStatus }) => {
                   preserveAspectRatio: "xMidYMid slice",
                 },
               }}
-              isClickToPauseDisabled
-              isStopped={!showLoading}
+              // isClickToPauseDisabled
+              isStopped={!showLoading && window.walletConnection.isSignedIn()}
               speed={0.5}
             ></Lottie>
           </div>
