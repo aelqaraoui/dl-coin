@@ -2,9 +2,9 @@ import BN from "bn.js";
 import React, { useState } from "react";
 import Lottie from "react-lottie";
 import "./coinContainer.css";
-import coinAnimation from "../../src/lotties/coinFlip.json";
-import lostAnimation from "../../src/lotties/lost.json";
-import winAnimation from "../../src/lotties/win.json";
+import coinAnimation from "../../src/lotties/coinflipY.json";
+import lostAnimation from "../../src/lotties/Loss.json";
+import winAnimation from "../../src/lotties/win2.json";
 import { login } from "../../src/utils";
 
 const CoinContainer = ({ flipStatus }) => {
@@ -16,10 +16,23 @@ const CoinContainer = ({ flipStatus }) => {
     <div>
       <div className="App">
         {flipStatus.length < 1 && (
-          <div style={{ marginTop: "-60px" }}>
+          <div
+            style={{
+              position: "relative",
+              width: "280px",
+              height: "250px",
+              margin: "0 auto",
+            }}
+          >
             <Lottie
-              width={280}
-              height={280}
+              width={200}
+              height={200}
+              style={{
+                // margin: "-10% auto",
+                left: "50%",
+                position: "absolute",
+                transform: "translateX(-50%)",
+              }}
               options={{
                 loop: true,
                 autoplay: !window.walletConnection.isSignedIn(),
@@ -30,6 +43,7 @@ const CoinContainer = ({ flipStatus }) => {
               }}
               isClickToPauseDisabled
               isStopped={!showLoading}
+              speed={0.5}
             ></Lottie>
           </div>
         )}
@@ -165,18 +179,36 @@ const CoinContainer = ({ flipStatus }) => {
           <>
             {flipStatus === "You won!" ? (
               <>
-                <Lottie
-                  width={250}
-                  height={250}
-                  options={{
-                    loop: true,
-                    autoplay: true,
-                    animationData: winAnimation,
-                    rendererSettings: {
-                      preserveAspectRatio: "xMidYMid slice",
-                    },
+                <div
+                  style={{
+                    position: "relative",
+                    width: "280px",
+                    height: "250px",
+                    margin: "0 auto",
                   }}
-                ></Lottie>
+                >
+                  <Lottie
+                    width={400}
+                    height={400}
+                    style={{
+                      width: "150%",
+                      height: "115%",
+                      margin: "-10% auto",
+                      left: "50%",
+                      position: "absolute",
+                      transform: "translateX(-50%)",
+                    }}
+                    options={{
+                      loop: false,
+                      autoplay: true,
+                      animationData: winAnimation,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  ></Lottie>
+                </div>
+
                 <div style={{ marginTop: "12px" }}>{flipStatus}</div>
 
                 <div
@@ -187,28 +219,44 @@ const CoinContainer = ({ flipStatus }) => {
                 </div>
               </>
             ) : (
-              <div style={{ marginTop: "24px" }}>
-                <Lottie
-                  width={100}
-                  height={100}
-                  options={{
-                    loop: true,
-                    autoplay: true,
-                    animationData: lostAnimation,
-                    rendererSettings: {
-                      preserveAspectRatio: "xMidYMid slice",
-                    },
+              <>
+                <div
+                  style={{
+                    position: "relative",
+                    width: "280px",
+                    height: "250px",
+                    margin: "0 auto",
                   }}
-                ></Lottie>
+                >
+                  <Lottie
+                    width={400}
+                    height={400}
+                    style={{
+                      width: "150%",
+                      height: "115%",
+                      margin: "-10% auto",
+                      left: "50%",
+                      position: "absolute",
+                      transform: "translateX(-50%)",
+                    }}
+                    options={{
+                      loop: false,
+                      autoplay: true,
+                      animationData: lostAnimation,
+                      rendererSettings: {
+                        preserveAspectRatio: "xMidYMid slice",
+                      },
+                    }}
+                  ></Lottie>
+                </div>
                 <div style={{ marginTop: "12px" }}>{flipStatus}</div>
-
                 <div
                   className="double-btn active"
                   onClick={() => (window.location.href = "/")}
                 >
                   Try again
                 </div>
-              </div>
+              </>
             )}
           </>
         )}

@@ -5,7 +5,7 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
-import coinAnimation from "./../../src/lotties/coinFlip.json";
+import coinAnimation from "./../../src/lotties/coinFlip2.json";
 import "./../Home/home.css";
 import "./leaderboard.css";
 
@@ -221,7 +221,7 @@ const LeaderBoard = () => {
       <div className="leader-wrapper">
         <div>
           <div className="coin-mobile">
-            <Lottie
+            {/* <Lottie
               width={200}
               height={200}
               options={{
@@ -232,7 +232,8 @@ const LeaderBoard = () => {
                   preserveAspectRatio: "xMidYMid slice",
                 },
               }}
-            ></Lottie>
+            ></Lottie> */}
+            <img width={200} src={require("/assets/sideflip.gif")} />
           </div>
           <div
             style={{
@@ -330,7 +331,7 @@ const LeaderBoard = () => {
             </div>
           </div>
           <div className="coin-desktop">
-            <Lottie
+            {/* <Lottie
               width={280}
               height={280}
               options={{
@@ -341,7 +342,8 @@ const LeaderBoard = () => {
                   preserveAspectRatio: "xMidYMid slice",
                 },
               }}
-            ></Lottie>
+            ></Lottie> */}
+            <img width={200} src={require("/assets/sideflip.gif")} />
           </div>
         </div>
         <div style={{ flex: "2 2 0" }}>

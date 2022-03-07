@@ -466,10 +466,13 @@ body {
 
 .coin-mobile {
   display: none;
+  text-align: center;
 }
 
 .coin-desktop {
   display: block;
+  text-align: center;
+  margin-top: 36px;
 }
 
 .dropdown {

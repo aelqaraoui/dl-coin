@@ -33,13 +33,12 @@ const Home = () => {
   }, [theme]);
 
   useEffect(async () => {
-    if (window.walletConnection.isSignedIn()){
+    if (window.walletConnection.isSignedIn()) {
       setBalance(
         (await window.walletConnection._connectedAccount.getAccountBalance())
           .available / 1000000000000000000000000
       );
     }
-
 
     const near = await connect(window.walletConnection._near.config);
 
@@ -134,6 +133,18 @@ const Home = () => {
       </div>
 
       <div className="main">
+        {status === "You won!" && (
+          <img
+            style={{
+              position: "absolute",
+              width: "50%",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+            src={require("/assets/confetti.gif")}
+          />
+        )}
+
         <div className="body">
           <h3>Welcome to DEGEN Lizards Coin Flip!</h3>
 
