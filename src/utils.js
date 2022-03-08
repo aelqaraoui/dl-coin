@@ -1,35 +1,52 @@
-import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
-import getConfig from './config'
+import { connect, Contract, keyStores, WalletConnection } from "near-api-js";
+import getConfig from "./config";
 
-const nearConfig = getConfig('testnet')
+const nearConfig = getConfig("testnet");
 
 // Initialize contract & set global variables
 export async function initContract() {
   // Initialize connection to the NEAR testnet
-  const near = await connect(Object.assign({ deps: { keyStore: new keyStores.BrowserLocalStorageKeyStore() } }, nearConfig))
+  const near = await connect(
+    Object.assign(
+      { deps: { keyStore: new keyStores.BrowserLocalStorageKeyStore() } },
+      nearConfig
+    )
+  );
 
   // Initializing Wallet based Account. It can work with NEAR testnet wallet that
   // is hosted at https://wallet.testnet.near.org
-  window.walletConnection = new WalletConnection(near)
+  window.walletConnection = new WalletConnection(near);
 
   // Getting the Account ID. If still unauthorized, it's just empty string
-  window.accountId = window.walletConnection.getAccountId()
+  window.accountId = window.walletConnection.getAccountId();
 
-  console.log(nearConfig.contractName)
+  console.log(nearConfig.contractName);
 
   // Initializing our contract APIs by contract name and configuration
-  window.contract = await new Contract(window.walletConnection.account(), nearConfig.contractName, {
-    // View methods are read only. They don't modify the state, but usually return some value.
-    viewMethods: ['explain'],
-    // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ['play', 'configure'],
-  })
+  window.contract = await new Contract(
+    window.walletConnection.account(),
+    nearConfig.contractName,
+    {
+      // View methods are read only. They don't modify the state, but usually return some value.
+      viewMethods: [
+        "get_fees",
+        "get_chance",
+        "get_fee_wallet",
+        "get_team_wallet",
+        "get_max_bet",
+        "get_fund_info",
+        "get_fee_free",
+      ],
+      // Change methods can modify the state. But you don't receive the returned value when called.
+      changeMethods: ["play", "fund", "unfund"],
+    }
+  );
 }
 
 export function logout() {
-  window.walletConnection.signOut()
+  window.walletConnection.signOut();
   // reload page
-  window.location.replace(window.location.origin + window.location.pathname)
+  window.location.replace(window.location.origin + window.location.pathname);
 }
 
 export function login() {
@@ -37,5 +54,5 @@ export function login() {
   // user's behalf.
   // This works by creating a new access key for the user's account and storing
   // the private key in localStorage.
-  window.walletConnection.requestSignIn(nearConfig.contractName)
+  window.walletConnection.requestSignIn(nearConfig.contractName);
 }
