@@ -5,7 +5,7 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
-import coinAnimation from "./../../src/lotties/coinFlipY.json";
+import coinAnimation from "../../src/lotties/coinFlipY.json";
 import "./../Home/home.css";
 import "./leaderboard.css";
 
