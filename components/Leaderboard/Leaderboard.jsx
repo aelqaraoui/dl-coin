@@ -5,7 +5,7 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
-import coinAnimation from "./../../src/lotties/coinFlip2.json";
+import coinAnimation from "./../../src/lotties/coinFlipY.json";
 import "./../Home/home.css";
 import "./leaderboard.css";
 
@@ -221,19 +221,34 @@ const LeaderBoard = () => {
       <div className="leader-wrapper">
         <div>
           <div className="coin-mobile">
-            {/* <Lottie
-              width={200}
-              height={200}
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: coinAnimation,
-                rendererSettings: {
-                  preserveAspectRatio: "xMidYMid slice",
-                },
+            <div
+              style={{
+                position: "relative",
+                width: "280px",
+                height: "250px",
+                margin: "0 auto",
               }}
-            ></Lottie> */}
-            <img width={200} src={require("/assets/sideflip.gif")} />
+            >
+              <Lottie
+                width={200}
+                height={200}
+                style={{
+                  // margin: "-10% auto",
+                  left: "50%",
+                  position: "absolute",
+                  transform: "translateX(-50%)",
+                }}
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: coinAnimation,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                speed={0.45}
+              ></Lottie>
+            </div>
           </div>
           <div
             style={{
@@ -331,19 +346,34 @@ const LeaderBoard = () => {
             </div>
           </div>
           <div className="coin-desktop">
-            {/* <Lottie
-              width={280}
-              height={280}
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: coinAnimation,
-                rendererSettings: {
-                  preserveAspectRatio: "xMidYMid slice",
-                },
+            <div
+              style={{
+                position: "relative",
+                width: "280px",
+                height: "250px",
+                margin: "0 auto",
               }}
-            ></Lottie> */}
-            <img width={200} src={require("/assets/sideflip.gif")} />
+            >
+              <Lottie
+                width={200}
+                height={200}
+                style={{
+                  // margin: "-10% auto",
+                  left: "50%",
+                  position: "absolute",
+                  transform: "translateX(-50%)",
+                }}
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: coinAnimation,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                speed={0.45}
+              ></Lottie>
+            </div>
           </div>
         </div>
         <div style={{ flex: "2 2 0" }}>

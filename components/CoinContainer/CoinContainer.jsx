@@ -43,7 +43,7 @@ const CoinContainer = ({ flipStatus }) => {
               }}
               // isClickToPauseDisabled
               isStopped={!showLoading && window.walletConnection.isSignedIn()}
-              speed={0.5}
+              speed={0.45}
             ></Lottie>
           </div>
         )}
