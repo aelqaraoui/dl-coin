@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'coin-flip.amino.near'
+const CONTRACT_NAME = 'coin-flip.amino.testnet'
 
 function getConfig(env) {
   switch (env) {
