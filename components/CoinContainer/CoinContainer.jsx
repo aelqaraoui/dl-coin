@@ -1,11 +1,13 @@
 import BN from "bn.js";
 import React, { useState } from "react";
 import Lottie from "react-lottie";
-import "./coinContainer.css";
-import coinAnimation from "../../src/lotties/coinflipY.json";
+import coinAnimationX from "../../src/lotties/coinflipX.json";
+import coinAnimationY from "../../src/lotties/coinflipY.json";
 import lostAnimation from "../../src/lotties/Loss.json";
 import winAnimation from "../../src/lotties/win2.json";
 import { login } from "../../src/utils";
+import "./coinContainer.css";
+import lizard from "./lizard.png";
 
 const CoinContainer = ({ flipStatus }) => {
   const [selectedSide, setSelectedSide] = useState("");
@@ -24,27 +26,53 @@ const CoinContainer = ({ flipStatus }) => {
               margin: "0 auto",
             }}
           >
-            <Lottie
-              width={200}
-              height={200}
-              style={{
-                // margin: "-10% auto",
-                left: "50%",
-                position: "absolute",
-                transform: "translateX(-50%)",
-              }}
-              options={{
-                loop: true,
-                autoplay: !window.walletConnection.isSignedIn(),
-                animationData: coinAnimation,
-                rendererSettings: {
-                  preserveAspectRatio: "xMidYMid slice",
-                },
-              }}
-              // isClickToPauseDisabled
-              isStopped={!showLoading && window.walletConnection.isSignedIn()}
-              speed={0.45}
-            ></Lottie>
+            {!window.walletConnection.isSignedIn() && (
+              <Lottie
+                width={200}
+                height={200}
+                style={{
+                  // margin: "-10% auto",
+                  left: "50%",
+                  position: "absolute",
+                  transform: "translateX(-50%)",
+                }}
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: coinAnimationY,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                // isClickToPauseDisabled
+                isStopped={!showLoading && window.walletConnection.isSignedIn()}
+                speed={0.45}
+              ></Lottie>
+            )}
+            {window.walletConnection.isSignedIn() && showLoading && (
+              <Lottie
+                width={150}
+                height={150}
+                style={{
+                  // margin: "-10% auto",
+                  left: "50%",
+                  position: "absolute",
+                  transform: "translateX(-50%)",
+                }}
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: coinAnimationX,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+                speed={0.9}
+              ></Lottie>
+            )}
+            {window.walletConnection.isSignedIn() && !showLoading && (
+              <img src={lizard} width={170} height={170} />
+            )}
           </div>
         )}
 
