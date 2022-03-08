@@ -5,7 +5,7 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
-import coinAnimation from "../../src/lotties/coinFlipY.json";
+import coinAnimationY from "../../src/lotties/coinflipY.json";
 import "./../Home/home.css";
 import "./leaderboard.css";
 
@@ -241,7 +241,7 @@ const LeaderBoard = () => {
                 options={{
                   loop: true,
                   autoplay: true,
-                  animationData: coinAnimation,
+                  animationData: coinAnimationY,
                   rendererSettings: {
                     preserveAspectRatio: "xMidYMid slice",
                   },
@@ -366,7 +366,7 @@ const LeaderBoard = () => {
                 options={{
                   loop: true,
                   autoplay: true,
-                  animationData: coinAnimation,
+                  animationData: coinAnimationY,
                   rendererSettings: {
                     preserveAspectRatio: "xMidYMid slice",
                   },
