@@ -1,7 +1,7 @@
 import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
 import getConfig from './config'
 
-const nearConfig = getConfig('mainnet')
+const nearConfig = getConfig('testnet')
 
 // Initialize contract & set global variables
 export async function initContract() {

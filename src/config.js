@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'house.woothugg.near'
+const CONTRACT_NAME = 'coin-flip.amino.near'
 
 function getConfig(env) {
   switch (env) {
