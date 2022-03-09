@@ -95,13 +95,13 @@ const Stake = () => {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <span>Max Bet: </span>
-                    <span>{data.maxBet}</span>
+                    <span>{data.maxBet} Ⓝ</span>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <span>Amount staked: </span>
-                    <span>{data.fundInfo.amount}</span>
+                    <span>{data.fundInfo.amount} Ⓝ</span>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
