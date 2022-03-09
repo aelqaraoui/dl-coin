@@ -1,15 +1,13 @@
 import * as nearAPI from "near-api-js";
 import React, { useEffect, useState } from "react";
-import { BsFillSunFill } from "react-icons/bs";
-import { FaDiscord, FaMoon, FaTrophy, FaTwitter } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaDiscord, FaTwitter } from "react-icons/fa";
 import "regenerator-runtime/runtime";
 import CoinContainer from "../CoinContainer/CoinContainer";
+import Header from "../Header/Header";
+import RecentPlays from "../RecentPlays/RecentPlays";
 import getConfig from "./../../src/config";
 import "./../../src/global.css";
 import "./../modal.css";
-import RecentPlays from "../RecentPlays/RecentPlays";
-import { logout } from "./../../src/utils";
 import "./home.css";
 
 const { networkId } = getConfig("mainnet");
@@ -17,8 +15,6 @@ const { networkId } = getConfig("mainnet");
 const { utils, connect, providers } = nearAPI;
 
 const Home = () => {
-  const [balance, setBalance] = useState(0);
-
   const [status, setStatus] = useState("");
 
   const [showAboutModal, setShowAboutModal] = useState(false);
@@ -33,23 +29,16 @@ const Home = () => {
   }, [theme]);
 
   useEffect(async () => {
-    if (window.walletConnection.isSignedIn()) {
-      setBalance(
-        (await window.walletConnection._connectedAccount.getAccountBalance())
-          .available / 1000000000000000000000000
-      );
-    }
+    // const near = await connect(window.walletConnection._near.config);
 
-    const near = await connect(window.walletConnection._near.config);
-
-    const feesAccount = await near.account("fees.woothugg.near");
-    setFeesBalance(
-      (await feesAccount.getAccountBalance()).available /
-        1000000000000000000000000
-    );
+    // const feesAccount = await near.account("fees.woothugg.near");
+    // setFeesBalance(
+    //   (await feesAccount.getAccountBalance()).available /
+    //     1000000000000000000000000
+    // );
 
     const provider = new providers.JsonRpcProvider(
-      "https://archival-rpc.mainnet.near.org"
+      "https://archival-rpc.testnet.near.org"
     );
 
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -60,7 +49,7 @@ const Home = () => {
       window.walletConnection._near.config.contractName
     );
 
-    setStatus(result.receipts_outcome[0].outcome.logs[3]);
+    setStatus(result.receipts_outcome[0].outcome.logs[5]);
 
     setTimeout(() => {
       setStatus("");
@@ -69,68 +58,7 @@ const Home = () => {
 
   return (
     <div className="container" data-theme={theme}>
-      <div className="header">
-        <div className="first-col" style={{ flex: "1 1 0" }}>
-          {window.walletConnection.isSignedIn() && (
-            <>
-              <p>{window.accountId}</p>
-              <p className="available-near">{balance.toFixed(2)} Ⓝ</p>{" "}
-            </>
-          )}
-        </div>
-        <div
-          style={{
-            flex: "1 1 0",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {theme === "dark" ? (
-            <BsFillSunFill
-              style={{
-                fontSize: "16px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => setTheme("light")}
-            ></BsFillSunFill>
-          ) : (
-            <FaMoon
-              style={{
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-              onClick={() => setTheme("dark")}
-            ></FaMoon>
-          )}
-        </div>
-        <div
-          style={{
-            flex: "1 1 0",
-            justifyContent: "end",
-            display: "flex",
-            alignItems: "center",
-            gap: "48px",
-          }}
-        >
-          <Link
-            to="/leaderboard"
-            style={{ textDecoration: "none" }}
-            target="_blank"
-          >
-            <div className="leaderboard-btn">
-              <FaTrophy />
-              <span className="lead-title">LEADERBOARD</span>
-            </div>
-          </Link>
-
-          {window.walletConnection.isSignedIn() && (
-            <p className="sign-out" onClick={logout}>
-              Sign out
-            </p>
-          )}
-        </div>
-      </div>
+      <Header theme={theme} setTheme={setTheme} />
 
       <div className="main">
         {status === "You won!" && (

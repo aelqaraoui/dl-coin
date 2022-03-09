@@ -36,6 +36,7 @@
   min-height: 67px;
   font-size: 14px;
   color: var(--text-primary);
+  background-color: var(--background);
 }
 
 .header .first-col {
@@ -115,7 +116,7 @@
   .leaderboard-btn {
     background-color: transparent;
     padding: 0;
-    color: var(--text-primary)
+    color: var(--text-primary);
   }
 
   .leaderboard-btn:hover {
