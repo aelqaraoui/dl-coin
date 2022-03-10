@@ -7,21 +7,50 @@ import { login } from "../../src/utils";
 
 const options = { year: "numeric", month: "long", day: "numeric" };
 
-const addMonths = (dateIn, months) => {
+const calculateRemainingTime = (dateIn, months) => {
+  console.log("datein:", dateIn);
   const date = new Date(dateIn);
   var d = date.getDate();
   date.setMonth(date.getMonth() + +months);
   if (date.getDate() != d) {
     date.setDate(0);
   }
-  return date.toLocaleDateString("en-US", options);
+
+  // get total seconds between the times
+  var delta = Math.abs(date - new Date()) / 1000;
+
+  // calculate (and subtract) whole days
+  var days = Math.floor(delta / 86400);
+  delta -= days * 86400;
+
+  // calculate (and subtract) whole hours
+  var hours = Math.floor(delta / 3600) % 24;
+  delta -= hours * 3600;
+
+  // calculate (and subtract) whole minutes
+  var minutes = Math.floor(delta / 60) % 60;
+  delta -= minutes * 60;
+
+  // what's left is seconds
+  var seconds = delta % 60; // in theory the modulus is not required
+
+  if (days < 1) {
+    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+  }
+  if (days === 0 && hours === 0) {
+    return "Available";
+  }
+
+  return ` ${days} ${days === 1 ? "day" : "days"} and ${hours} ${
+    hours === 1 ? "hour" : "hours"
+  }`;
 };
 
 const getDate = (nanoseconds) => {
   const miliseconds = Math.round(nanoseconds / 1000000);
   const date = new Date(miliseconds);
 
-  return date.toLocaleDateString("en-US", options);
+  return date;
 };
 
 const Stake = () => {
@@ -47,8 +76,8 @@ const Stake = () => {
       totalStaked: (parseFloat(maxBet) / 1e24) * 500,
       fundInfo: {
         amount: parseFloat(fundInfo[0]) / 1e24,
-        beginDate: getDate(fundInfo[1]),
-        endDate: addMonths(getDate(fundInfo[1]), 1),
+        beginDate: getDate(fundInfo[1]).toLocaleDateString("en-US", options),
+        endDate: calculateRemainingTime(getDate(fundInfo[1]), 1),
       },
     });
   }, []);
@@ -85,44 +114,35 @@ const Stake = () => {
               </div>
             )}
             {window.walletConnection.isSignedIn() && (
-              <>
-                <div
-                className="flex gap-2 mb-4"
-                  // style={{
-                  //   display: "flex",
-                  //   gap: "8px",
-                  //   marginBottom: "24px",
-                  // }}
-                >
-                  <div style={{ display: "flex" }}>
-                    <span>Total Staked: </span>
-                    <span>{data.totalStaked} Ⓝ</span>
+              <div className="flex flex-col gap-12">
+                <div className="flex justify-between">
+                  <div className="text-left">
+                    <p className="text-base">Total Staked</p>
+                    <p className="text-2xl font-bold">
+                      {data.totalStaked} <span className="text-lg">Ⓝ</span>
+                    </p>
                   </div>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Amount staked: </span>
-                    <span>{data.fundInfo.amount} Ⓝ</span>
-                  </div>
-                  {/* <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Start Date: </span>
-                    <span>{data.fundInfo.beginDate}</span>
-                  </div> */}
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Remaining time to unlock: </span>
-                    <span>{data.fundInfo.endDate}</span>
+                  <div className="text-left">
+                    <p className="text-base">Amount staked</p>
+                    <p className="text-2xl font-bold">
+                      {data.fundInfo.amount} <span className="text-lg">Ⓝ</span>
+                    </p>
                   </div>
                 </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-base">Time to unlock</span>
+                  <span className="text-xl">{data.fundInfo.endDate}</span>
+                </div>
 
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button onClick={() => setShowStakeModal(true)}>Stake</button>
+                <div className="flex gap-4">
                   <button
+                    className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
+                    onClick={() => setShowStakeModal(true)}
+                  >
+                    Stake
+                  </button>
+                  <button
+                    className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
                     onClick={async (event) => {
                       event.preventDefault();
 
@@ -144,7 +164,7 @@ const Stake = () => {
                     Unstake
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
