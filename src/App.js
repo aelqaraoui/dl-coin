@@ -1,19 +1,25 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "regenerator-runtime/runtime";
-import Home from "../components/Home/Home";
-import LeaderBoard from "../components/Leaderboard/Leaderboard";
-import Stake from "../components/Stake/Stake";
-import './global.css'
+import logo from "./logo.svg";
+import "./App.css";
 
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/leaderboard" element={<LeaderBoard />}></Route>
-        <Route path="/stake" element={<Stake />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="flex ml-12 bg-gray-50	text-black">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
+
+export default App;
