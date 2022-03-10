@@ -1,0 +1,129 @@
+.container {
+  background-color: var(--background);
+  min-height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.body {
+  padding: 2rem 0;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.body h3 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.header {
+  display: flex;
+  flex: 1;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid white;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 67px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background-color: var(--background);
+}
+
+.header .first-col {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.available-near {
+  color: green;
+  font-size: 12px;
+}
+
+.sign-out {
+  color: red;
+  cursor: pointer;
+}
+
+.social-icons {
+  display: flex;
+  margin-top: 36px;
+  gap: 16px;
+}
+
+.faq-link {
+  margin: 0;
+  color: var(--text-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.leaderboard-btn {
+  background-color: var(--background-secondary);
+  color: white;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.leaderboard-btn:hover {
+  background-color: var(--background-accent);
+}
+
+@media only screen and (max-width: 468px) {
+  .main {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .body h3 {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  .header .first-col {
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .sign-out {
+    text-align: end;
+  }
+
+  .header p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .header .first-col p {
+    word-break: break-all;
+  }
+
+  .leaderboard-btn {
+    background-color: transparent;
+    padding: 0;
+    color: var(--text-primary);
+  }
+
+  .leaderboard-btn:hover {
+    background-color: transparent;
+  }
+
+  .leaderboard-btn .lead-title {
+    display: none;
+  }
+}

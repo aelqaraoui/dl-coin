@@ -1,0 +1,43 @@
+.recent-plays {
+  margin-top: 24px;
+  width: 300px;
+}
+
+.outcome.won {
+  color: green;
+}
+
+.outcome.lost {
+  color: red;
+}
+
+.list-wrapper {
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  list-style-type: none;
+  padding: 0;
+  text-align: start;
+  background-color: var(--background-terciary);
+}
+
+.elm {
+  padding: 12px;
+  word-break: break-word;
+}
+
+.elm:not(:last-child) {
+  border-bottom: 1px solid #aaa;
+}
+
+@media only screen and (min-width: 420px) {
+    .recent-plays {
+      width: 400px;
+    }
+  }
+
+@media only screen and (min-width: 998px) {
+  .recent-plays {
+    width: 500px;
+  }
+}
