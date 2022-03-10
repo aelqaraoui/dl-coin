@@ -74,7 +74,7 @@ const Home = () => {
         )}
 
         <div className="body">
-          <h3>Welcome to DEGEN Lizards Coin Flip!</h3>
+          <h3 className="roboto-mono">Welcome to DEGEN Lizards Coin Flip!</h3>
 
           <div style={{ marginTop: "24px", marginBottom: "24px" }}>
             <CoinContainer flipStatus={status} />
@@ -99,6 +99,7 @@ const Home = () => {
               marginTop: "24px",
               fontSize: "14px",
             }}
+            className="roboto-mono"
           >
             <p className="faq-link" onClick={() => setShowAboutModal(true)}>
               ABOUT
@@ -148,7 +149,7 @@ const Home = () => {
       </div>
 
       {showAboutModal && (
-        <div className="modal display-block">
+        <div className="modal display-block roboto-mono">
           <section className="modal-main">
             <div className="modal-container">
               <span className="modal-title">ABOUT</span>
@@ -175,7 +176,7 @@ const Home = () => {
       )}
 
       {showFAQsModal && (
-        <div className="modal display-block">
+        <div className="modal display-block roboto-mono">
           <section className="modal-main">
             <div className="modal-container">
               <span style={{ fontSize: "20px", fontWeight: "bold" }}>

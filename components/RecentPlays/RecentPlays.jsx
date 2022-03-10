@@ -63,10 +63,10 @@ const RecentPlays = () => {
 
   return (
     <div className="recent-plays">
-      <p style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "36px" }}>
+      <p className="roboto-mono" style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "36px" }}>
         Recent plays
       </p>
-      <ul className="list-wrapper">
+      <ul className="list-wrapper roboto-mono">
         {recentPlays?.map((elm, index) => (
           <li className="elm" key={index}>
             <div>

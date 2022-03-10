@@ -4,6 +4,7 @@ import "regenerator-runtime/runtime";
 import Home from "../components/Home/Home";
 import LeaderBoard from "../components/Leaderboard/Leaderboard";
 import Stake from "../components/Stake/Stake";
+import './global.css'
 
 export default function App() {
   return (

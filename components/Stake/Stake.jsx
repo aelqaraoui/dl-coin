@@ -26,7 +26,7 @@ const getDate = (nanoseconds) => {
 
 const Stake = () => {
   const [data, setData] = useState({
-    maxBet: "",
+    totalStaked: "",
     fundInfo: {
       amount: "",
       beginDate: "",
@@ -44,7 +44,7 @@ const Stake = () => {
     const fundInfo = await window.contract.get_fund_info();
 
     setData({
-      maxBet: parseFloat(maxBet) / 1e24,
+      totalStaked: (parseFloat(maxBet) / 1e24) * 500,
       fundInfo: {
         amount: parseFloat(fundInfo[0]) / 1e24,
         beginDate: getDate(fundInfo[1]),
@@ -66,7 +66,10 @@ const Stake = () => {
       >
         <Header theme={theme} setTheme={setTheme} />
         <div className="body">
-          <h3 style={{ fontWeight: "bold", marginBottom: "24px" }}>
+          <h3
+            className="roboto-mono"
+            style={{ fontWeight: "bold", marginBottom: "24px" }}
+          >
             DEGEN Staking
           </h3>
 
@@ -84,18 +87,16 @@ const Stake = () => {
             {window.walletConnection.isSignedIn() && (
               <>
                 <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "8px",
-                    marginBottom: "24px",
-                  }}
+                className="flex gap-2 mb-4"
+                  // style={{
+                  //   display: "flex",
+                  //   gap: "8px",
+                  //   marginBottom: "24px",
+                  // }}
                 >
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>Max Bet: </span>
-                    <span>{data.maxBet} Ⓝ</span>
+                  <div style={{ display: "flex" }}>
+                    <span>Total Staked: </span>
+                    <span>{data.totalStaked} Ⓝ</span>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
@@ -103,16 +104,16 @@ const Stake = () => {
                     <span>Amount staked: </span>
                     <span>{data.fundInfo.amount} Ⓝ</span>
                   </div>
-                  <div
+                  {/* <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <span>Start Date: </span>
                     <span>{data.fundInfo.beginDate}</span>
-                  </div>
+                  </div> */}
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <span>End Date: </span>
+                    <span>Remaining time to unlock: </span>
                     <span>{data.fundInfo.endDate}</span>
                   </div>
                 </div>
