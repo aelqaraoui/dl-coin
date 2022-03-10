@@ -1,0 +1,122 @@
+.App {
+  text-align: center;
+  background-color: var(--background-terciary);
+  height: 100%;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 2px 4px #aaa;
+  min-width: 358px;
+}
+
+button {
+  cursor: pointer;
+}
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  z-index: 100;
+}
+
+.chip input {
+  display: none;
+}
+
+.chip.chip-checkbox,
+.chip.chip-toggle,
+.chip.clickable {
+  cursor: pointer;
+}
+
+.chip.active {
+  background-color: var(--background-accent);
+  border-color: #c3c2c2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  color: var(--text-secondary);
+}
+
+.chip:hover,
+.chip:focus {
+  background-color: var(--background-accent);
+  color: var(--text-secondary);
+}
+
+.chip:active:focus {
+  background-color: var(--background-accent);
+}
+
+.chip {
+  transition: all 0.3s ease-in-out;
+  background-color: var(--background-terciary);
+  border-radius: 30px;
+  border: 1px solid #d3d2d2;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px 6px 8px;
+  color: var(--text-terciary);
+}
+
+.double-btn {
+  margin-top: 36px;
+  width: 100%;
+  background-color: var(--background-secondary);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.double-btn.disabled {
+  cursor: not-allowed;
+}
+
+.double-btn.active:hover {
+  background-color: var(--background-accent);
+}
+
+.near-amount-wrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.near-amount {
+  padding: 8px;
+  text-align: center;
+  background-color: var(--background-smooth);
+  border-radius: 4px;
+  font-size: 18px;
+  color: var(--text-terciary);
+  cursor: pointer;
+}
+
+.near-amount:hover,
+.near-amount.active {
+  background-color: var(--background-accent);
+  color: var(--text-secondary);
+}
+
+.near-amount input {
+  display: none;
+}
+
+@media only screen and (max-width: 468px) {
+  #coin {
+    width: 150px;
+    height: 150px;
+    font-size: 24px;
+  }
+
+  .near-amount-wrapper {
+    justify-content: space-between;
+  }
+
+  .near-amount {
+    font-size: 14px;
+  }
+
+  .App {
+    min-width: 0;
+  }
+}
