@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <div
-      className="flex items-center px-24 py-8 bg-gray-10 dark:bg-blue-dark"
+      className="sticky top-0 z-9999 flex items-center px-24 py-4 bg-white dark:bg-blue-accent dark:text-white font-roboto text-sm"
       data-theme={theme}
     >
       <div className="flex-1 flex items-center gap-4">
@@ -31,14 +31,33 @@ const Header = () => {
         </Link>
         {window.walletConnection.isSignedIn() && (
           <div className="flex items-center gap-2">
-            <p>{window.accountId}</p>
-            <p className="text-green-500 font-bold">
-              {balance.toFixed(2)} Ⓝ
-            </p>{" "}
+            <p>
+              {window.accountId}{" "}
+              <span className="text-green font-bold text-sm">
+                {balance.toFixed(2)} Ⓝ
+              </span>
+            </p>
           </div>
         )}
       </div>
       <div className="flex-1 flex justify-center">
+        <ul className="flex items-center gap-8">
+          <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white">
+            <Link to="/stake" className="no-underline">
+              <span>Stake</span>
+            </Link>
+          </li>
+          <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white">
+            <Link to="/leaderboard" target="_blank" className="no-underline">
+              <div className="flex items-center gap-2">
+                <FaTrophy />
+                <span>Leaderboard</span>
+              </div>
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div className="flex flex-1 justify-end items-center gap-12">
         {theme === "dark" ? (
           <BsFillSunFill
             className="cursor-pointer text-white text-base"
@@ -50,28 +69,10 @@ const Header = () => {
             onClick={() => setTheme("dark")}
           ></FaMoon>
         )}
-      </div>
-      <div className="flex flex-1 justify-end items-center gap-12">
-        <ul className="flex items-center gap-8 font-robotoMono">
-          <li className="dark:text-white p-2 rounded bg-transparent hover:bg-smooth-gray">
-            <Link to="/stake" className="no-underline">
-              <span>STAKE</span>
-            </Link>
-          </li>
-          <li className="dark:text-white">
-            <Link to="/leaderboard" target="_blank" className="no-underline">
-              <div className="flex items-center gap-2">
-                <FaTrophy />
-                <span>LEADERBOARD</span>
-              </div>
-            </Link>
-          </li>
-        </ul>
-
         {window.walletConnection.isSignedIn() && (
-          <p className="sign-out" onClick={logout}>
-            Sign out
-          </p>
+          <div className="cursor-pointer p-2 rounded bg-gray-20 hover:bg-gray-10 dark:bg-smooth-gray dark:hover:bg-blue-dark">
+            <p onClick={logout}>Sign out</p>
+          </div>
         )}
       </div>
     </div>

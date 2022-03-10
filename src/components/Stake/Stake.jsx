@@ -89,81 +89,120 @@ const Stake = () => {
   return (
     <>
       <div
-        className="home-container"
+        className="home-container bg-gray-10 dark:bg-blue-dark"
         style={{ paddingBottom: "24px" }}
         data-theme={theme}
       >
         <Header theme={theme} setTheme={setTheme} />
         <div className="body">
           <h3
-            className="roboto-mono"
+            className="font-robotoMono dark:text-white"
             style={{ fontWeight: "bold", marginBottom: "24px" }}
           >
             DEGEN Staking
           </h3>
 
-          <div className="App">
+          <div className="coin-container bg-white dark:bg-smooth-gray dark:text-white">
             {!window.walletConnection.isSignedIn() && (
               <div style={{ marginTop: "36px" }}>
-                <span style={{ fontSize: "14px" }}>
-                  Connect your wallet and start staking!
-                </span>
-                <div className="double-btn active" onClick={login}>
+                <span>Connect your wallet and start staking!</span>
+                <button
+                  className="mt-16 bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
+                  onClick={login}
+                >
                   Sign in
-                </div>
+                </button>
               </div>
             )}
             {window.walletConnection.isSignedIn() && (
               <div className="flex flex-col gap-12">
-                <div className="flex justify-between">
-                  <div className="text-left">
-                    <p className="text-base">Total Staked</p>
-                    <p className="text-2xl font-bold">
-                      {data.totalStaked} <span className="text-lg">Ⓝ</span>
-                    </p>
-                  </div>
-                  <div className="text-left">
-                    <p className="text-base">Amount staked</p>
-                    <p className="text-2xl font-bold">
-                      {data.fundInfo.amount} <span className="text-lg">Ⓝ</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-base">Time to unlock</span>
-                  <span className="text-xl">{data.fundInfo.endDate}</span>
-                </div>
+                {data.totalStaked &&
+                data.fundInfo.amount &&
+                data.fundInfo.endDate ? (
+                  <>
+                    <div className="flex justify-between">
+                      <div className="text-left">
+                        <p className="text-sm">Total Staked</p>
+                        <p className="text-2xl font-bold">
+                          {data.totalStaked} <span className="text-lg">Ⓝ</span>
+                        </p>
+                      </div>
 
-                <div className="flex gap-4">
-                  <button
-                    className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
-                    onClick={() => setShowStakeModal(true)}
-                  >
-                    Stake
-                  </button>
-                  <button
-                    className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
-                    onClick={async (event) => {
-                      event.preventDefault();
+                      <div className="text-left">
+                        <p className="text-sm">Amount staked</p>
+                        <p className="text-2xl font-bold">
+                          {data.fundInfo.amount}{" "}
+                          <span className="text-lg">Ⓝ</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Time to unlock</span>
+                      <span className="text-base font-bold">
+                        {data.fundInfo.endDate}
+                      </span>
+                    </div>
 
-                      await setTimeout(() => {
-                        try {
-                          window.contract.unfund({}, 30000000000000);
-                        } catch (e) {
-                          alert(
-                            "Something went wrong! " +
-                              "Maybe you need to sign out and back in? " +
-                              "Check your browser console for more info."
-                          );
-                          throw e;
-                        } finally {
-                        }
-                      }, 2000);
-                    }}
-                  >
-                    Unstake
-                  </button>
-                </div>
+                    <div className="flex gap-4">
+                      <button
+                        className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
+                        onClick={() => setShowStakeModal(true)}
+                      >
+                        Stake
+                      </button>
+                      <button
+                        className={`${
+                          data.fundInfo.endDate !== "Available"
+                            ? "bg-gray-20 cursor-not-allowed"
+                            : "bg-blue-500 hover:bg-blue-700"
+                        }  w-full  text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out`}
+                        onClick={async (event) => {
+                          if (data.fundInfo.endDate !== "Available") return;
+                          event.preventDefault();
+
+                          await setTimeout(() => {
+                            try {
+                              window.contract.unfund({}, 30000000000000);
+                            } catch (e) {
+                              alert(
+                                "Something went wrong! " +
+                                  "Maybe you need to sign out and back in? " +
+                                  "Check your browser console for more info."
+                              );
+                              throw e;
+                            } finally {
+                            }
+                          }, 2000);
+                        }}
+                      >
+                        Unstake
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between">
+                      <div className="flex flex-col gap-1">
+                        <div className="w-18 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                        <div className="w-24 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                      </div>
+
+                      <div className="flex flex-col gap-1">
+                        <div className="w-18 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                        <div className="w-24 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="w-24 h-8 rounded bg-gray-30 animate-pulse"></div>
+                      <div className="w-24 h-8 rounded bg-gray-30 animate-pulse"></div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="w-full h-8 rounded bg-gray-30 animate-pulse"></div>
+                      <div className="w-full h-8 rounded bg-gray-30 animate-pulse"></div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>

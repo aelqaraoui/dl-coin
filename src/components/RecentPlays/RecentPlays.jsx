@@ -37,9 +37,7 @@ const RecentPlays = () => {
   }
 
   useEffect(() => {
-    fetch(
-      "https://indexer-dl.herokuapp.com/api/latest_transactions"
-    )
+    fetch("https://indexer-dl.herokuapp.com/api/latest_transactions")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -62,19 +60,20 @@ const RecentPlays = () => {
   if (recentPlays.length < 1) return <></>;
 
   return (
-    <div className="recent-plays">
-      <p className="roboto-mono" style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "36px" }}>
+    <div className="recent-plays font-robotoMono">
+      <p
+        className="roboto-mono"
+        style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "36px" }}
+      >
         Recent plays
       </p>
-      <ul className="list-wrapper roboto-mono">
+      <ul className="list-wrapper bg-white dark:smooth-gray">
         {recentPlays?.map((elm, index) => (
           <li className="elm" key={index}>
             <div>
               {elm.accountId} flipped {elm.amount} Ⓝ and
               <span className={`outcome ${elm.outcome}`}> {elm.outcome}</span>.
-              <div style={{ fontSize: "12px", textAlign: "end" }}>
-                {elm.time}
-              </div>
+              <div className="text-right text-xs">{elm.time}</div>
             </div>
           </li>
         ))}

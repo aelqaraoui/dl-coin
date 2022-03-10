@@ -57,10 +57,10 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home-container">
+    <div className="bg-gray-10 dark:bg-blue-dark font-roboto">
       <Header />
 
-      <div className="main">
+      <div>
         {status === "You won!" && (
           <img
             style={{
@@ -72,11 +72,12 @@ const Home = () => {
             src={require("/assets/confetti.gif")}
           />
         )}
+        <div className="flex items-center text-center flex-col mt-8 dark:text-white">
+          <p className="font-robotoMono text-xl">
+            Welcome to DEGEN Lizards Coin Flip!
+          </p>
 
-        <div className="body">
-          <h3 className="roboto-mono">Welcome to DEGEN Lizards Coin Flip!</h3>
-
-          <div style={{ marginTop: "24px", marginBottom: "24px" }}>
+          <div className="my-6">
             <CoinContainer flipStatus={status} />
           </div>
 

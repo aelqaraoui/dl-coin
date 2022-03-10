@@ -10,13 +10,13 @@ import "./coinContainer.css";
 import lizard from "./lizard.png";
 
 const CoinContainer = ({ flipStatus }) => {
-  const [selectedSide, setSelectedSide] = useState("");
+  const [selectedSide, setSelectedSide] = useState("heads");
   const [selectedAmount, setSelectedAmount] = useState(1);
   const [showLoading, setShowLoading] = useState(false);
 
   return (
     <div>
-      <div className="App">
+      <div className="coin-container bg-white dark:bg-smooth-gray dark:text-white">
         {flipStatus.length < 1 && (
           <div
             style={{
@@ -71,19 +71,20 @@ const CoinContainer = ({ flipStatus }) => {
               ></Lottie>
             )}
             {window.walletConnection.isSignedIn() && !showLoading && (
-              <img src={lizard} width={170} height={170} />
+              <img className="m-auto" src={lizard} width={170} height={170} />
             )}
           </div>
         )}
 
         {!window.walletConnection.isSignedIn() && (
           <div style={{ marginTop: "-40px" }}>
-            <span style={{ fontSize: "14px" }}>
-              Connect your wallet and start playing!
-            </span>
-            <div className="double-btn active" onClick={login}>
+            <span>Connect your wallet and start playing!</span>
+            <button
+              className="mt-16 bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
+              onClick={login}
+            >
               Sign in
-            </div>
+            </button>
           </div>
         )}
 
@@ -91,8 +92,10 @@ const CoinContainer = ({ flipStatus }) => {
           <div style={{ marginTop: "-60px" }}>
             <div className="chip-group" role="radiogroup">
               <div
-                className={`chip ${
-                  selectedSide === "heads" ? "active" : ""
+                className={`chip rounded-full hover:bg-gold-yellow hover:text-black w-24 justify-center ${
+                  selectedSide === "heads"
+                    ? "active bg-gold-yellow text-black"
+                    : "bg-smooth-yellow text-gray-40"
                 } chip-checkbox`}
                 aria-labelledby="radioOneLabel"
                 role="radio"
@@ -103,8 +106,10 @@ const CoinContainer = ({ flipStatus }) => {
                 <span id="radioOneLabel">Heads</span>
               </div>
               <div
-                className={`chip ${
-                  selectedSide === "tails" ? "active" : ""
+                className={`chip rounded-full hover:bg-gold-yellow hover:text-black w-24 justify-center ${
+                  selectedSide === "tails"
+                    ? "active bg-gold-yellow text-black"
+                    : "bg-smooth-yellow text-gray-40"
                 } chip-checkbox`}
                 aria-labelledby="radioTwoLabel"
                 role="radio"
@@ -116,14 +121,17 @@ const CoinContainer = ({ flipStatus }) => {
               </div>
             </div>
 
-            <div style={{ marginTop: "24px" }}>
-              <span style={{ marginBottom: "12px", display: "block" }}>
-                Select the Ⓝ amount to flip
-              </span>
-              <div className="near-amount-wrapper" role="radiogroup">
+            <div className="mt-6">
+              <span className="block mb-3">Select the Ⓝ amount to flip</span>
+              <div
+                className="flex gap-3 justify-center dark:text-blue-dark"
+                role="radiogroup"
+              >
                 <div
-                  className={`near-amount ${
-                    selectedAmount === 1 ? "active" : ""
+                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
+                    selectedAmount === 1
+                      ? "bg-gold-yellow text-black"
+                      : "bg-smooth-yellow text-gray-40"
                   } `}
                   onClick={() => setSelectedAmount(1)}
                 >
@@ -131,8 +139,10 @@ const CoinContainer = ({ flipStatus }) => {
                   <span id="onenear">1 Ⓝ</span>
                 </div>
                 <div
-                  className={`near-amount ${
-                    selectedAmount === 2 ? "active" : ""
+                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
+                    selectedAmount === 2
+                      ? "bg-gold-yellow text-black"
+                      : "bg-smooth-yellow text-gray-40"
                   } `}
                   onClick={() => setSelectedAmount(2)}
                 >
@@ -140,8 +150,10 @@ const CoinContainer = ({ flipStatus }) => {
                   <span id="twonear">2 Ⓝ</span>
                 </div>
                 <div
-                  className={`near-amount ${
-                    selectedAmount === 3 ? "active" : ""
+                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
+                    selectedAmount === 3
+                      ? "bg-gold-yellow text-black"
+                      : "bg-smooth-yellow text-gray-40"
                   } `}
                   onClick={() => setSelectedAmount(3)}
                 >
@@ -149,8 +161,10 @@ const CoinContainer = ({ flipStatus }) => {
                   <span id="threenear">3 Ⓝ</span>
                 </div>
                 <div
-                  className={`near-amount ${
-                    selectedAmount === 4 ? "active" : ""
+                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
+                    selectedAmount === 4
+                      ? "bg-gold-yellow text-black"
+                      : "bg-smooth-yellow text-gray-40"
                   } `}
                   onClick={() => setSelectedAmount(4)}
                 >
@@ -158,8 +172,10 @@ const CoinContainer = ({ flipStatus }) => {
                   <span id="fournear">4 Ⓝ</span>
                 </div>
                 <div
-                  className={`near-amount ${
-                    selectedAmount === 5 ? "active" : ""
+                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
+                    selectedAmount === 5
+                      ? "bg-gold-yellow text-black"
+                      : "bg-smooth-yellow text-gray-40"
                   } `}
                   onClick={() => setSelectedAmount(5)}
                 >
@@ -170,7 +186,7 @@ const CoinContainer = ({ flipStatus }) => {
             </div>
 
             <div
-              className={`double-btn ${selectedSide ? "active" : "disabled"}`}
+              className={`text-gray-40 cursor-pointer bg-gray-10 w-full mt-8 rounded-lg p-2 hover:bg-gray-20 hover:text-black dark:hover:bg-gray-40`}
               onClick={async (event) => {
                 if (!selectedSide) return;
                 event.preventDefault();
