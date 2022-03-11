@@ -9,7 +9,6 @@ import "./Stake.css";
 const options = { year: "numeric", month: "long", day: "numeric" };
 
 const calculateRemainingTime = (dateIn, months) => {
-  console.log("datein:", dateIn);
   const date = new Date(dateIn);
   var d = date.getDate();
   date.setMonth(date.getMonth() + +months);

@@ -19,8 +19,6 @@ const Header = () => {
           .available / 1000000000000000000000000
       );
     }
-    console.log(window.location.pathname);
-    console.log(window.location.pathname.includes("stake"));
   }, []);
 
   return (
