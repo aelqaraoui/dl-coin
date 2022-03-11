@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsFillSunFill } from "react-icons/bs";
 import { FaMoon, FaTrophy } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../services/providers/ThemeContext";
 import { logout } from "../../utils";
 import "../Home/home.css";
-import lizard from "../CoinContainer/lizard.png";
-import { ThemeContext } from "../../services/providers/ThemeContext";
 
 const Header = () => {
   const [balance, setBalance] = useState(0);
@@ -20,6 +19,8 @@ const Header = () => {
           .available / 1000000000000000000000000
       );
     }
+    console.log(window.location.pathname);
+    console.log(window.location.pathname.includes("stake"));
   }, []);
 
   return (
@@ -29,9 +30,6 @@ const Header = () => {
         data-theme={theme}
       >
         <div className="flex-1 flex items-center gap-4">
-          <Link className="cursor-pointer" to="/">
-            <img src={lizard} width={48} height={48} />
-          </Link>
           {window.walletConnection.isSignedIn() && (
             <div className="flex items-center gap-2">
               <p>
@@ -44,19 +42,23 @@ const Header = () => {
           )}
         </div>
         <div className="flex-1 flex justify-center">
-          <ul className="flex items-center gap-8">
-            <Link to="/stake" className="no-underline">
+          <ul className="flex items-center gap-8 whitespace-nowrap">
+            <Link to="/" className="no-underline">
               <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white transition duration-500 ease-in-out font-bold">
-                <span>Stake</span>
+                <span>Coin Flip</span>
               </li>
             </Link>
-
             <Link to="/leaderboard" target="_blank" className="no-underline">
               <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white transition duration-500 ease-in-out font-bold">
                 <div className="flex items-center gap-2">
                   <FaTrophy />
                   <span>Leaderboard</span>
                 </div>
+              </li>
+            </Link>
+            <Link to="/stake" className="no-underline">
+              <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white transition duration-500 ease-in-out font-bold">
+                <span>Stake</span>
               </li>
             </Link>
           </ul>
@@ -83,11 +85,8 @@ const Header = () => {
           )}
         </div>
       </div>
-      <div className="px-8 py-2 bg-white dark:bg-blue-accent dark:text-white items-center justify-between flex md:hidden">
-        <Link className="cursor-pointer" to="/">
-          <img src={lizard} width={32} height={32} />
-        </Link>
-        <div>
+      <div className="px-8 py-2 bg-white dark:bg-blue-accent dark:text-white items-center flex md:hidden">
+        <div className="flex-1 justify-end flex">
           {theme === "dark" ? (
             <BsFillSunFill
               className="cursor-pointer text-white text-base"
@@ -100,10 +99,12 @@ const Header = () => {
             ></FaMoon>
           )}
         </div>
-        <FiMenu
-          className="cursor-pointer text-xl"
-          onClick={() => setShowMobileMenu(!showMobileMenu)}
-        />
+        <div className="flex-1 justify-end flex">
+          <FiMenu
+            className="cursor-pointer text-xl"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+          />
+        </div>
       </div>
       {showMobileMenu && (
         <div className="px-8 py-2 bg-white dark:bg-blue-accent dark:text-white">
@@ -117,11 +118,14 @@ const Header = () => {
             </div>
           )}
           <ul className="flex flex-col gap-2 mb-2">
-            <Link to="/stake" className="no-underline">
-              <li className="text-sm font-bold">Stake</li>
+            <Link to="/" className="no-underline">
+              <li className="text-sm font-bold">Coin Flip</li>
             </Link>
             <Link to="/leaderboard" target="_blank" className="no-underline">
               <li className="text-sm font-bold">Leaderboard</li>
+            </Link>
+            <Link to="/stake" className="no-underline">
+              <li className="text-sm font-bold">Stake</li>
             </Link>
           </ul>
         </div>

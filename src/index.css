@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none bg-gold-yellow;
+  -webkit-appearance: none;
+  border: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+}
 /* * {
   box-sizing: border-box;
 }

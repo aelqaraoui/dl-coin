@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./Stake.css";
 import BN from "bn.js";
+import React, { useEffect, useState } from "react";
+import { login } from "../../utils";
+import PlayButton from "../Core/buttons/PlayButton";
 import Header from "../Header/Header";
 import "../modal.css";
-import { login } from "../../utils";
-import DefaultButton from "../Core/buttons/DefaultButton";
+import "./Stake.css";
 
 const options = { year: "numeric", month: "long", day: "numeric" };
 
@@ -38,13 +38,22 @@ const calculateRemainingTime = (dateIn, months) => {
   if (days < 1) {
     return `${hours} ${hours === 1 ? "hour" : "hours"}`;
   }
-  if (days === 0 && hours === 0) {
-    return "Available";
+
+  if (days >= 1) {
+    return ` ${days} ${days === 1 ? "day" : "days"} and ${hours} ${
+      hours === 1 ? "hour" : "hours"
+    }`;
   }
 
-  return ` ${days} ${days === 1 ? "day" : "days"} and ${hours} ${
-    hours === 1 ? "hour" : "hours"
-  }`;
+  if (days < 1 && hours < 1) {
+    return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  }
+
+  if (hours < 1 && minutes < 1) {
+    return `${seconds} ${seconds === 1 ? "second" : "seconds"}`;
+  }
+
+  return "Available";
 };
 
 const getDate = (nanoseconds) => {
@@ -60,6 +69,7 @@ const Stake = () => {
     fundInfo: {
       amount: "",
       endDate: "",
+      feeFreeBet: "",
     },
   });
   const [stakeAmount, setStakeAmount] = useState(0);
@@ -71,11 +81,20 @@ const Stake = () => {
   useEffect(async () => {
     const maxBet = await window.contract.get_max_bet();
     const fundInfo = await window.contract.get_fund_info();
+    const feeFreeBet = await window.contract.get_fee_free();
 
     setData({
-      totalStaked: (parseFloat(maxBet) / 1e24) * 500,
+      totalStaked: maxBet
+        ? ((parseFloat(maxBet) / 1e24) * 500).toFixed(2)
+        : "-",
       fundInfo: {
-        amount: fundInfo?.length > 0 ? parseFloat(fundInfo[0]) / 1e24 : "-",
+        amount:
+          fundInfo?.length > 0
+            ? (parseFloat(fundInfo[0]) / 1e24).toFixed(2)
+            : "-",
+        feeFreeBet: feeFreeBet
+          ? Math.floor(parseFloat(feeFreeBet) / 1e24)
+          : "-",
         endDate:
           fundInfo?.length > 0
             ? calculateRemainingTime(getDate(fundInfo[1]), 1)
@@ -108,9 +127,9 @@ const Stake = () => {
             {!window.walletConnection.isSignedIn() && (
               <div style={{ marginTop: "36px" }}>
                 <p className="mb-16">Connect your wallet and start staking!</p>
-                <DefaultButton onClick={login}>
+                <PlayButton onClick={login}>
                   <span>Sign in</span>
-                </DefaultButton>
+                </PlayButton>
               </div>
             )}
             {window.walletConnection.isSignedIn() && (
@@ -135,18 +154,26 @@ const Stake = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Time to unlock</span>
-                      <span className="text-base font-bold">
-                        {data.fundInfo.endDate}
-                      </span>
+                    <div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Time to unlock</span>
+                        <span className="text-base font-bold">
+                          {data.fundInfo.endDate}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Fee free bets</span>
+                        <span className="text-base font-bold">
+                          {data.fundInfo.feeFreeBet}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex gap-4">
-                      <DefaultButton onClick={() => setShowStakeModal(true)}>
+                      <PlayButton onClick={() => setShowStakeModal(true)}>
                         Stake
-                      </DefaultButton>
-                      <DefaultButton
+                      </PlayButton>
+                      <PlayButton
                         disabled={data.fundInfo.endDate !== "Available"}
                         onClick={async (event) => {
                           if (data.fundInfo.endDate !== "Available") return;
@@ -168,7 +195,7 @@ const Stake = () => {
                         }}
                       >
                         Unstake
-                      </DefaultButton>
+                      </PlayButton>
                     </div>
                   </>
                 ) : (
@@ -218,10 +245,10 @@ const Stake = () => {
             </div>
 
             <div className="flex gap-4">
-              <DefaultButton onClick={() => setShowStakeModal(false)}>
+              <PlayButton onClick={() => setShowStakeModal(false)}>
                 Cancel
-              </DefaultButton>
-              <DefaultButton
+              </PlayButton>
+              <PlayButton
                 disabled={!/^[1-9]+[0-9]*$/.test(stakeAmount)}
                 onClick={async (event) => {
                   event.preventDefault();
@@ -248,7 +275,7 @@ const Stake = () => {
                 }}
               >
                 Stake
-              </DefaultButton>
+              </PlayButton>
             </div>
           </section>
         </div>

@@ -1,9 +1,13 @@
 import React from "react";
 
-const PlayButton = ({ children, onClick }) => {
+const PlayButton = ({ children, onClick, disabled = false }) => {
   return (
     <button
-      className="bg-gray-30 w-full hover:bg-blue-accent text-white font-bold py-2 rounded text-sm rounded-lg transition duration-500 ease-in-out"
+      className={`w-full text-white font-bold py-2 rounded text-sm rounded-lg transition duration-500 ease-in-out ${
+        disabled
+          ? "bg-gray-20 cursor-not-allowed"
+          : "bg-gray-30 hover:bg-blue-accent "
+      }`}
       onClick={onClick}
     >
       {children}

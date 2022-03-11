@@ -9,7 +9,7 @@ import getConfig from "../../config";
 // import "./../../src/global.css";
 import "../modal.css";
 import "./home.css";
-import DefaultButton from "../Core/buttons/DefaultButton";
+import PlayButton from "../Core/buttons/PlayButton";
 
 const { networkId } = getConfig("mainnet");
 
@@ -21,13 +21,6 @@ const Home = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showFAQsModal, setShowFAQsModal] = useState(false);
   const [feesBalance, setFeesBalance] = useState(0);
-
-  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
-
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(async () => {
     // const near = await connect(window.walletConnection._near.config);
@@ -168,9 +161,9 @@ const Home = () => {
             <p className="modal-answer" style={{ marginBottom: "0" }}>
               There will be only DEGEN Lizards.
             </p>
-            <DefaultButton onClick={() => setShowAboutModal(false)}>
+            <PlayButton onClick={() => setShowAboutModal(false)}>
               Close
-            </DefaultButton>
+            </PlayButton>
           </section>
         </div>
       )}
@@ -241,9 +234,9 @@ const Home = () => {
               </a>
             </p>
 
-            <DefaultButton onClick={() => setShowFAQsModal(false)}>
+            <PlayButton onClick={() => setShowFAQsModal(false)}>
               Close
-            </DefaultButton>
+            </PlayButton>
           </section>
         </div>
       )}

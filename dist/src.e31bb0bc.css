@@ -23905,6 +23905,17 @@ video {
   content: none;
 }
 
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  --tw-bg-opacity: 1;
+  background-color: rgba(234, 179, 8, var(--tw-bg-opacity));
+  -webkit-appearance: none;
+  border: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+}
+
 /* * {
   box-sizing: border-box;
 }

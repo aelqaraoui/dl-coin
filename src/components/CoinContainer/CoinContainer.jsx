@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Lottie from "react-lottie";
 import coinAnimationX from "../../lotties/coinflipX.json";
 import coinAnimationY from "../../lotties/coinflipY.json";
@@ -15,6 +15,20 @@ const CoinContainer = ({ flipStatus }) => {
   const [selectedSide, setSelectedSide] = useState("heads");
   const [selectedAmount, setSelectedAmount] = useState(1);
   const [showLoading, setShowLoading] = useState(false);
+  const [betsArray, setBetsArray] = useState([1, 2, 3, 4, 5]);
+
+  useEffect(async () => {
+    const maxBet = await window.contract.get_max_bet();
+    const maxBetFinal = Math.floor(parseFloat(maxBet) / 1e24);
+
+    if (maxBetFinal > 5) {
+      let aux = [];
+      for (let i = 6; i <= maxBetFinal; i++) {
+        aux.push(i);
+      }
+      setBetsArray(betsArray.concat(aux));
+    }
+  }, []);
 
   return (
     <div>
@@ -127,65 +141,23 @@ const CoinContainer = ({ flipStatus }) => {
             </div>
 
             <div className="mt-6 mb-12">
-              <span className="block mb-3">Select the Ⓝ amount to flip</span>
-              <div
-                className="flex gap-3 justify-center dark:text-blue-dark"
-                role="radiogroup"
-              >
-                <div
-                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
-                    selectedAmount === 1
-                      ? "bg-gold-yellow text-black"
-                      : "bg-smooth-yellow text-gray-40"
-                  } transition duration-500 ease-in-out`}
-                  onClick={() => setSelectedAmount(1)}
-                >
-                  <input type="radio" name="radioEx" />
-                  <span id="onenear">1 Ⓝ</span>
-                </div>
-                <div
-                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
-                    selectedAmount === 2
-                      ? "bg-gold-yellow text-black"
-                      : "bg-smooth-yellow text-gray-40"
-                  } transition duration-500 ease-in-out`}
-                  onClick={() => setSelectedAmount(2)}
-                >
-                  <input type="radio" name="radioEx" />
-                  <span id="twonear">2 Ⓝ</span>
-                </div>
-                <div
-                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
-                    selectedAmount === 3
-                      ? "bg-gold-yellow text-black"
-                      : "bg-smooth-yellow text-gray-40"
-                  } transition duration-500 ease-in-out`}
-                  onClick={() => setSelectedAmount(3)}
-                >
-                  <input type="radio" name="radioEx" />
-                  <span id="threenear">3 Ⓝ</span>
-                </div>
-                <div
-                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
-                    selectedAmount === 4
-                      ? "bg-gold-yellow text-black"
-                      : "bg-smooth-yellow text-gray-40"
-                  } transition duration-500 ease-in-out`}
-                  onClick={() => setSelectedAmount(4)}
-                >
-                  <input type="radio" name="radioEx" />
-                  <span id="fournear">4 Ⓝ</span>
-                </div>
-                <div
-                  className={`near-amount px-2 py-1 rounded hover:bg-gold-yellow hover:text-black cursor-pointer ${
-                    selectedAmount === 5
-                      ? "bg-gold-yellow text-black"
-                      : "bg-smooth-yellow text-gray-40"
-                  } transition duration-500 ease-in-out`}
-                  onClick={() => setSelectedAmount(5)}
-                >
-                  <input type="radio" name="radioEx" />
-                  <span id="fivenear">5 Ⓝ</span>
+              <span className="block w-2/3 m-auto mb-3 text-sm md:text-base">
+                Select the Ⓝ amount to flip
+              </span>
+              <div className="w-2/3 m-auto">
+                <input
+                  type="range"
+                  min="0"
+                  max={(betsArray.length - 1).toString()}
+                  step="1"
+                  defaultValue={0}
+                  onChange={(e) => setSelectedAmount(betsArray[e.target.value])}
+                  className="cursor-pointer rounded w-full h-1 bg-smooth-yellow appearance-none slider-thumb"
+                />
+
+                <div className="flex justify-between text-sm font-bold">
+                  <div>{selectedAmount}</div>
+                  <div>{betsArray[betsArray.length - 1]}</div>
                 </div>
               </div>
             </div>

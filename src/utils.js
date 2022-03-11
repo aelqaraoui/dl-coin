@@ -34,10 +34,15 @@ export async function initContract() {
         "get_fee_wallet",
         "get_team_wallet",
         "get_max_bet",
-        "get_fee_free",
       ],
       // Change methods can modify the state. But you don't receive the returned value when called.
-      changeMethods: ["play", "fund", "unfund", "get_fund_info"],
+      changeMethods: [
+        "play",
+        "fund",
+        "unfund",
+        "get_fee_free",
+        "get_fund_info",
+      ],
     }
   );
 }
