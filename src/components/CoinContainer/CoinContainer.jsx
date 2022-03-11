@@ -6,8 +6,10 @@ import coinAnimationY from "../../lotties/coinflipY.json";
 import lostAnimation from "../../lotties/Loss.json";
 import winAnimation from "../../lotties/win2.json";
 import { login } from "../../utils";
+import PlayButton from "../Core/buttons/PlayButton";
 import "./coinContainer.css";
 import lizard from "./lizard.png";
+import near from "./near.png";
 
 const CoinContainer = ({ flipStatus }) => {
   const [selectedSide, setSelectedSide] = useState("heads");
@@ -71,7 +73,12 @@ const CoinContainer = ({ flipStatus }) => {
               ></Lottie>
             )}
             {window.walletConnection.isSignedIn() && !showLoading && (
-              <img className="m-auto" src={lizard} width={170} height={170} />
+              <img
+                className="m-auto"
+                src={selectedSide === "heads" ? lizard : near}
+                width={170}
+                height={170}
+              />
             )}
           </div>
         )}
@@ -96,7 +103,7 @@ const CoinContainer = ({ flipStatus }) => {
                   selectedSide === "heads"
                     ? "active bg-gold-yellow text-black"
                     : "bg-smooth-yellow text-gray-40"
-                } chip-checkbox`}
+                } chip-checkbox transition duration-500 ease-in-out text-sm font-bold`}
                 aria-labelledby="radioOneLabel"
                 role="radio"
                 aria-checked="false"
@@ -110,7 +117,7 @@ const CoinContainer = ({ flipStatus }) => {
                   selectedSide === "tails"
                     ? "active bg-gold-yellow text-black"
                     : "bg-smooth-yellow text-gray-40"
-                } chip-checkbox`}
+                } chip-checkbox transition duration-500 ease-in-out text-sm font-bold`}
                 aria-labelledby="radioTwoLabel"
                 role="radio"
                 aria-checked="false"
@@ -121,7 +128,7 @@ const CoinContainer = ({ flipStatus }) => {
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 mb-12">
               <span className="block mb-3">Select the Ⓝ amount to flip</span>
               <div
                 className="flex gap-3 justify-center dark:text-blue-dark"
@@ -132,7 +139,7 @@ const CoinContainer = ({ flipStatus }) => {
                     selectedAmount === 1
                       ? "bg-gold-yellow text-black"
                       : "bg-smooth-yellow text-gray-40"
-                  } `}
+                  } transition duration-500 ease-in-out`}
                   onClick={() => setSelectedAmount(1)}
                 >
                   <input type="radio" name="radioEx" />
@@ -143,7 +150,7 @@ const CoinContainer = ({ flipStatus }) => {
                     selectedAmount === 2
                       ? "bg-gold-yellow text-black"
                       : "bg-smooth-yellow text-gray-40"
-                  } `}
+                  } transition duration-500 ease-in-out`}
                   onClick={() => setSelectedAmount(2)}
                 >
                   <input type="radio" name="radioEx" />
@@ -154,7 +161,7 @@ const CoinContainer = ({ flipStatus }) => {
                     selectedAmount === 3
                       ? "bg-gold-yellow text-black"
                       : "bg-smooth-yellow text-gray-40"
-                  } `}
+                  } transition duration-500 ease-in-out`}
                   onClick={() => setSelectedAmount(3)}
                 >
                   <input type="radio" name="radioEx" />
@@ -165,7 +172,7 @@ const CoinContainer = ({ flipStatus }) => {
                     selectedAmount === 4
                       ? "bg-gold-yellow text-black"
                       : "bg-smooth-yellow text-gray-40"
-                  } `}
+                  } transition duration-500 ease-in-out`}
                   onClick={() => setSelectedAmount(4)}
                 >
                   <input type="radio" name="radioEx" />
@@ -176,7 +183,7 @@ const CoinContainer = ({ flipStatus }) => {
                     selectedAmount === 5
                       ? "bg-gold-yellow text-black"
                       : "bg-smooth-yellow text-gray-40"
-                  } `}
+                  } transition duration-500 ease-in-out`}
                   onClick={() => setSelectedAmount(5)}
                 >
                   <input type="radio" name="radioEx" />
@@ -185,8 +192,7 @@ const CoinContainer = ({ flipStatus }) => {
               </div>
             </div>
 
-            <div
-              className={`text-gray-40 cursor-pointer bg-gray-10 w-full mt-8 rounded-lg p-2 hover:bg-gray-20 hover:text-black dark:hover:bg-gray-40`}
+            <PlayButton
               onClick={async (event) => {
                 if (!selectedSide) return;
                 event.preventDefault();
@@ -216,7 +222,7 @@ const CoinContainer = ({ flipStatus }) => {
               }}
             >
               {showLoading ? "Loading..." : "Double or Nothing"}
-            </div>
+            </PlayButton>
           </div>
         )}
         {flipStatus.length > 0 && (
@@ -253,14 +259,11 @@ const CoinContainer = ({ flipStatus }) => {
                   ></Lottie>
                 </div>
 
-                <div style={{ marginTop: "12px" }}>{flipStatus}</div>
+                <div className="mt-3 mb-8 font-bold text-xl">{flipStatus}</div>
 
-                <div
-                  className="double-btn active"
-                  onClick={() => (window.location.href = "/")}
-                >
+                <PlayButton onClick={() => (window.location.href = "/")}>
                   Play again
-                </div>
+                </PlayButton>
               </>
             ) : (
               <>
@@ -293,13 +296,10 @@ const CoinContainer = ({ flipStatus }) => {
                     }}
                   ></Lottie>
                 </div>
-                <div style={{ marginTop: "12px" }}>{flipStatus}</div>
-                <div
-                  className="double-btn active"
-                  onClick={() => (window.location.href = "/")}
-                >
+                <div className="mt-3 mb-8 font-bold text-xl">{flipStatus}</div>
+                <PlayButton onClick={() => (window.location.href = "/")}>
                   Try again
-                </div>
+                </PlayButton>
               </>
             )}
           </>

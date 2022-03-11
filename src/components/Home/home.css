@@ -63,7 +63,6 @@
 
 .faq-link {
   margin: 0;
-  color: var(--text-link);
   text-decoration: underline;
   cursor: pointer;
 }

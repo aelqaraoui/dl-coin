@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsFillSunFill } from "react-icons/bs";
 import { FaMoon, FaTrophy } from "react-icons/fa";
 import { MdOutlineOpenInNew } from "react-icons/md";
@@ -6,6 +6,7 @@ import { RiCoinLine, RiArrowDropDownLine } from "react-icons/ri";
 import Lottie from "react-lottie";
 import { Link } from "react-router-dom";
 import coinAnimationY from "../../lotties/coinflipY.json";
+import { ThemeContext } from "../../services/providers/ThemeContext";
 import "../Home/home.css";
 import "./leaderboard.css";
 
@@ -65,9 +66,9 @@ const LeaderBoard = () => {
   const [selectedTime, setSelectedTime] = useState("current_month");
   const [monthTimestamp, setMonthTimestamp] = useState(getMonthTimestamp);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingStats, setIsLoadingStats] = useState(false);
 
-  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const formatNumber = (number) => {
     return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
@@ -75,6 +76,7 @@ const LeaderBoard = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    setIsLoadingStats(true);
     fetch(`${selectedLeadboard.api}0`)
       .then((response) => {
         if (response.ok) {
@@ -102,7 +104,10 @@ const LeaderBoard = () => {
         setLeadNetGain(jsonResponse.leaderboard);
         setControlState(true);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        setIsLoadingStats(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -130,6 +135,7 @@ const LeaderBoard = () => {
 
   useEffect(() => {
     if (!controlState) return;
+    setIsLoadingStats(true);
     fetch(`${selectedLeadboard.api}${auxStats.timestamp}`)
       .then((response) => {
         if (response.ok) {
@@ -147,37 +153,22 @@ const LeaderBoard = () => {
           total_volume,
           total_won,
         });
-      });
+      })
+      .finally(() => setIsLoadingStats(false));
   }, [auxStats]);
-
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   return (
     <div
-      className="home-container"
+      className="home-container font-roboto bg-gray-10 dark:bg-blue-dark dark:text-white"
       style={{ paddingBottom: "24px" }}
       data-theme={theme}
     >
       <div className="header" style={{ gap: 0 }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            flex: "1 1 0",
-          }}
-        >
+        <div className="flex flex-1 items-center gap-2 font-bold">
           <FaTrophy />
-          <p>LEADERBOARD</p>
+          <p>Leaderboard</p>
         </div>
-        <div
-          style={{
-            flex: "1 1 0",
-            display: "flex",
-          }}
-        >
+        <div className="flex flex-1">
           {theme === "dark" ? (
             <BsFillSunFill
               style={{
@@ -199,7 +190,9 @@ const LeaderBoard = () => {
         </div>
       </div>
       <div className="degen-title">
-        <h3 style={{ marginBottom: "8px" }}>DEGEN Lizards Coin Flip</h3>
+        <h3 className="font-robotoMono font-bold mb-1">
+          DEGEN Lizards Coin Flip
+        </h3>
         <div className="link">
           <Link
             to="/"
@@ -261,8 +254,10 @@ const LeaderBoard = () => {
             }}
           >
             <div
-              className={`data-toggle ${
-                auxStats.selected === "all" ? "active" : ""
+              className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                auxStats.selected === "all"
+                  ? "bg-gray-10 dark:bg-blue-dark"
+                  : "bg-white dark:bg-blue-accent"
               }`}
               onClick={() =>
                 setAuxStats({
@@ -274,8 +269,10 @@ const LeaderBoard = () => {
               All
             </div>
             <div
-              className={`data-toggle ${
-                auxStats.selected === "current_month" ? "active" : ""
+              className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                auxStats.selected === "current_month"
+                  ? "bg-gray-10 dark:bg-blue-dark"
+                  : "bg-white dark:bg-blue-accent"
               }`}
               onClick={() =>
                 setAuxStats({
@@ -287,8 +284,10 @@ const LeaderBoard = () => {
               Current Month
             </div>
             <div
-              className={`data-toggle ${
-                auxStats.selected === "current_day" ? "active" : ""
+              className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                auxStats.selected === "current_day"
+                  ? "bg-gray-10 dark:bg-blue-dark"
+                  : "bg-white dark:bg-blue-accent"
               }`}
               onClick={() =>
                 setAuxStats({
@@ -308,41 +307,77 @@ const LeaderBoard = () => {
               height: "fit-content",
             }}
           >
-            <div className="stats-card">
-              <div>
-                <div style={{ fontSize: "12px" }}>Total Flips</div>
-                <div style={{ fontWeight: "bold" }}>
-                  {formatNumber(stats.total_flips)}
+            <div className="stats-card bg-white dark:bg-blue-accent">
+              {isLoadingStats ? (
+                <div className="flex flex-col gap-2 justify-between">
+                  <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                 </div>
-              </div>
-              <RiCoinLine />
+              ) : (
+                <>
+                  <div>
+                    <div style={{ fontSize: "12px" }}>Total Flips</div>
+                    <div style={{ fontWeight: "bold" }}>
+                      {formatNumber(stats.total_flips)}
+                    </div>
+                  </div>
+                  <RiCoinLine />
+                </>
+              )}
             </div>
-            <div className="stats-card">
-              <div>
-                <div style={{ fontSize: "12px" }}>Total Won</div>
-                <div style={{ fontWeight: "bold" }}>
-                  {formatNumber(stats.total_won)}
+            <div className="stats-card bg-white dark:bg-blue-accent">
+              {isLoadingStats ? (
+                <div className="flex flex-col gap-2 justify-between">
+                  <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                 </div>
-              </div>
-              <div>Ⓝ</div>
+              ) : (
+                <>
+                  <div>
+                    <div style={{ fontSize: "12px" }}>Total Won</div>
+                    <div style={{ fontWeight: "bold" }}>
+                      {formatNumber(stats.total_won)}
+                    </div>
+                  </div>
+                  <div>Ⓝ</div>
+                </>
+              )}
             </div>
-            <div className="stats-card">
-              <div>
-                <div style={{ fontSize: "12px" }}>Total Loss</div>
-                <div style={{ fontWeight: "bold" }}>
-                  {formatNumber(stats.total_loss)}
+            <div className="stats-card bg-white dark:bg-blue-accent">
+              {isLoadingStats ? (
+                <div className="flex flex-col gap-2 justify-between">
+                  <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                 </div>
-              </div>
-              <div>Ⓝ</div>
+              ) : (
+                <>
+                  <div>
+                    <div style={{ fontSize: "12px" }}>Total Loss</div>
+                    <div style={{ fontWeight: "bold" }}>
+                      {formatNumber(stats.total_loss)}
+                    </div>
+                  </div>
+                  <div>Ⓝ</div>
+                </>
+              )}
             </div>
-            <div className="stats-card">
-              <div>
-                <div style={{ fontSize: "12px" }}>Total Volume</div>
-                <div style={{ fontWeight: "bold" }}>
-                  {formatNumber(stats.total_volume)}
+            <div className="stats-card bg-white dark:bg-blue-accent">
+              {isLoadingStats ? (
+                <div className="flex flex-col gap-2 justify-between">
+                  <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                 </div>
-              </div>
-              <div>Ⓝ</div>
+              ) : (
+                <>
+                  <div>
+                    <div style={{ fontSize: "12px" }}>Total Volume</div>
+                    <div style={{ fontWeight: "bold" }}>
+                      {formatNumber(stats.total_volume)}
+                    </div>
+                  </div>
+                  <div>Ⓝ</div>
+                </>
+              )}
             </div>
           </div>
           <div className="coin-desktop">
@@ -397,8 +432,10 @@ const LeaderBoard = () => {
               }}
             >
               <div
-                className={`data-toggle ${
-                  selectedTime === "all" ? "active" : ""
+                className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                  selectedTime === "all"
+                    ? "bg-gray-10 dark:bg-blue-dark"
+                    : "bg-white dark:bg-blue-accent"
                 }`}
                 onClick={() => {
                   setMonthTimestamp(0);
@@ -408,8 +445,10 @@ const LeaderBoard = () => {
                 All
               </div>
               <div
-                className={`data-toggle ${
-                  selectedTime === "current_month" ? "active" : ""
+                className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                  selectedTime === "current_month"
+                    ? "bg-gray-10 dark:bg-blue-dark"
+                    : "bg-white dark:bg-blue-accent"
                 }`}
                 onClick={() => {
                   setMonthTimestamp(getMonthTimestamp);
@@ -419,8 +458,10 @@ const LeaderBoard = () => {
                 Current Month
               </div>
               <div
-                className={`data-toggle ${
-                  selectedTime === "current_day" ? "active" : ""
+                className={`data-toggle hover:bg-gray-10 dark:hover:bg-blue-dark ${
+                  selectedTime === "current_day"
+                    ? "bg-gray-10 dark:bg-blue-dark"
+                    : "bg-white dark:bg-blue-accent"
                 }`}
                 onClick={() => {
                   setMonthTimestamp(getDayTimestamp);
@@ -430,7 +471,7 @@ const LeaderBoard = () => {
                 Current Day
               </div>
             </div>
-            <div className="dropdown">
+            <div className="dropdown hover:bg-gray-10 dark:hover:bg-blue-dark bg-white dark:bg-blue-accent border-black dark:border-white">
               <div
                 style={{
                   display: "flex",
@@ -445,11 +486,11 @@ const LeaderBoard = () => {
               </div>
 
               {showTypeDropdown && (
-                <div className="dropdown-content">
+                <div className="dropdown-content bg-white dark:bg-blue-accent border-black dark:border-white">
                   {LeadTypes.map((type) => (
                     <div
                       key={type.value}
-                      className="option"
+                      className="option hover:bg-gray-10 dark:hover:bg-blue-dark"
                       onClick={() => {
                         setShowTypeDropdown(!showTypeDropdown);
                         setSelectedLeadboard(type);
@@ -462,7 +503,7 @@ const LeaderBoard = () => {
               )}
             </div>
           </div>
-          <div className="board">
+          <div className="board bg-white dark:bg-blue-accent border-black dark:border-white">
             <div
               style={{
                 display: "flex",
@@ -472,7 +513,9 @@ const LeaderBoard = () => {
                 gap: "16px",
               }}
             >
-              <div style={{ fontWeight: "bold" }}>Top Degen Lizards</div>
+              <div className="font-robotoMono font-bold mb-4">
+                Top Degen Lizards
+              </div>
             </div>
 
             <ul
@@ -486,7 +529,60 @@ const LeaderBoard = () => {
               }}
             >
               {isLoading ? (
-                <p style={{ textAlign: "center" }}>Loading...</p>
+                <div className="flex flex-col gap-4">
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="w-32 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                    <div className="w-12 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                  </div>
+                </div>
               ) : (
                 <>
                   {selectedLeadboard.value === "net_gains" &&

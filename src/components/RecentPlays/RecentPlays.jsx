@@ -67,7 +67,7 @@ const RecentPlays = () => {
       >
         Recent plays
       </p>
-      <ul className="list-wrapper bg-white dark:smooth-gray">
+      <ul className="list-wrapper bg-white dark:bg-smooth-gray">
         {recentPlays?.map((elm, index) => (
           <li className="elm" key={index}>
             <div>

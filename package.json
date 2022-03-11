@@ -31,7 +31,8 @@
     "postcss": "^7",
     "react-test-renderer": "~17.0.1",
     "shelljs": "~0.8.4",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typescript": "^4.6.2"
   },
   "dependencies": {
     "asbuild": "^0.2.0",

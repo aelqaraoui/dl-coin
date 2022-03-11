@@ -34,7 +34,6 @@ button {
 }
 
 .chip {
-  transition: all 0.3s ease-in-out;
   display: inline-flex;
   align-items: center;
   padding: 6px 8px 6px 8px;
@@ -49,6 +48,10 @@ button {
     width: 150px;
     height: 150px;
     font-size: 24px;
+  }
+
+  .coin-container {
+    min-width: 300px;
   }
 
   .App {

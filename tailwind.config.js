@@ -27,6 +27,7 @@ module.exports = {
         robotoMono: ["Roboto Mono", "monospace"],
       },
       zIndex: {
+        1000: "1000",
         9999: "9999",
       },
     },

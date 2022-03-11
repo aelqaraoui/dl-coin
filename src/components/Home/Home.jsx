@@ -9,6 +9,7 @@ import getConfig from "../../config";
 // import "./../../src/global.css";
 import "../modal.css";
 import "./home.css";
+import DefaultButton from "../Core/buttons/DefaultButton";
 
 const { networkId } = getConfig("mainnet");
 
@@ -60,13 +61,14 @@ const Home = () => {
     <div className="bg-gray-10 dark:bg-blue-dark font-roboto">
       <Header />
 
-      <div>
+      <div className="pb-12 relative">
         {status === "You won!" && (
           <img
             style={{
               position: "absolute",
-              width: "50%",
               left: "50%",
+              width: "600px",
+              height: "300px",
               transform: "translateX(-50%)",
             }}
             src={require("/assets/confetti.gif")}
@@ -82,11 +84,8 @@ const Home = () => {
           </div>
 
           {
-            <div>
-              Fees Balance:{" "}
-              <span style={{ color: "green", fontWeight: "bold" }}>
-                {feesBalance} Ⓝ
-              </span>
+            <div className="font-robotoMono">
+              Fees Balance: <span className="text-green">{feesBalance} Ⓝ</span>
             </div>
           }
 
@@ -102,11 +101,17 @@ const Home = () => {
             }}
             className="roboto-mono"
           >
-            <p className="faq-link" onClick={() => setShowAboutModal(true)}>
+            <p
+              className="faq-link text-blue-link dark:text-white text-xs font-bold"
+              onClick={() => setShowAboutModal(true)}
+            >
               ABOUT
             </p>
             <span style={{ display: "block", color: "#aaa" }}>|</span>
-            <p className="faq-link" onClick={() => setShowFAQsModal(true)}>
+            <p
+              className="faq-link text-blue-link dark:text-white text-xs font-bold"
+              onClick={() => setShowFAQsModal(true)}
+            >
               FAQs
             </p>
           </div>
@@ -151,108 +156,94 @@ const Home = () => {
 
       {showAboutModal && (
         <div className="modal display-block roboto-mono">
-          <section className="modal-main">
-            <div className="modal-container">
-              <span className="modal-title">ABOUT</span>
-              <p className="modal-question">What is Degen Lizards?</p>
-              <p className="modal-answer">
-                DEGEN Lizards is an NFT project aiming to build NEAR's first
-                casino and share 100% of the profits from the casino with our
-                holders. We're not just another coin flip project there will be
-                other games that you can play in our casino.
-              </p>
-              <p className="modal-answer" style={{ marginBottom: "0" }}>
-                There will be only DEGEN Lizards.
-              </p>
-            </div>
-            <div
-              className="double-btn active"
-              style={{ textAlign: "center" }}
-              onClick={() => setShowAboutModal(false)}
-            >
+          <section className="modal-main bg-white dark:bg-smooth-gray dark:text-white font-roboto">
+            <span className="font-bold text-xl font-robotoMono">ABOUT</span>
+            <p className="modal-question">What is Degen Lizards?</p>
+            <p className="modal-answer">
+              DEGEN Lizards is an NFT project aiming to build NEAR's first
+              casino and share 100% of the profits from the casino with our
+              holders. We're not just another coin flip project there will be
+              other games that you can play in our casino.
+            </p>
+            <p className="modal-answer" style={{ marginBottom: "0" }}>
+              There will be only DEGEN Lizards.
+            </p>
+            <DefaultButton onClick={() => setShowAboutModal(false)}>
               Close
-            </div>
+            </DefaultButton>
           </section>
         </div>
       )}
 
       {showFAQsModal && (
         <div className="modal display-block roboto-mono">
-          <section className="modal-main">
-            <div className="modal-container">
-              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                Frequently Asked Questions
-              </span>
-              <p className="modal-question">
-                What is Degen Lizards Coin Flip game?
-              </p>
-              <p className="modal-answer">
-                It's a game that allows users to play Double or Nothing with
-                their NEAR tokens. Odds are 50/50 with a 3.5% fee.
-              </p>
-              <p className="modal-question">How will casino games be?</p>
-              <p className="modal-answer">
-                The games in the casino will be 50/50 odds with 3.5% fee only.
-              </p>
-              <p className="modal-question">
-                When will the casino be launched?
-              </p>
-              <p className="modal-answer">
-                Games will be rolled out as we build them. We're focusing on
-                having the best player experience since more volume means more
-                profits and more value to our holders.
-              </p>
-              <p className="modal-question">Where can I track transactions?</p>
-              <p className="modal-answer">
-                House Wallet:{" "}
-                <a
-                  className="faq-link"
-                  href="https://explorer.near.org/accounts/house.woothugg.near"
-                  target={"_blank"}
-                >
-                  https://explorer.near.org/accounts/house.woothugg.near
-                </a>
-              </p>
-              <p className="modal-answer">
-                Fee Wallet:{" "}
-                <a
-                  className="faq-link"
-                  href="https://explorer.mainnet.near.org/accounts/fees.woothugg.near"
-                  target={"_blank"}
-                >
-                  https://explorer.mainnet.near.org/accounts/fees.woothugg.near
-                </a>
-              </p>
-              <p className="modal-answer">
-                Team Wallet:{" "}
-                <a
-                  className="faq-link"
-                  href="https://explorer.mainnet.near.org/accounts/team.woothugg.near"
-                  target={"_blank"}
-                >
-                  https://explorer.mainnet.near.org/accounts/team.woothugg.near
-                </a>
-              </p>
-              <p className="modal-answer">
-                If you still have questions, join our discord and talk to the
-                team.{" "}
-                <a
-                  className="faq-link"
-                  href="https://discord.com/invite/dQfQ9gYqKb"
-                  target={"_blank"}
-                >
-                  https://discord.com/invite/dQfQ9gYqKb
-                </a>
-              </p>
-            </div>
+          <section className="modal-main bg-white dark:bg-smooth-gray dark:text-white font-roboto">
+            <span className="font-bold text-xl font-robotoMono">
+              Frequently Asked Questions
+            </span>
+            <p className="modal-question">
+              What is Degen Lizards Coin Flip game?
+            </p>
+            <p className="modal-answer">
+              It's a game that allows users to play Double or Nothing with their
+              NEAR tokens. Odds are 50/50 with a 3.5% fee.
+            </p>
+            <p className="modal-question">How will casino games be?</p>
+            <p className="modal-answer">
+              The games in the casino will be 50/50 odds with 3.5% fee only.
+            </p>
+            <p className="modal-question">When will the casino be launched?</p>
+            <p className="modal-answer">
+              Games will be rolled out as we build them. We're focusing on
+              having the best player experience since more volume means more
+              profits and more value to our holders.
+            </p>
+            <p className="modal-question">Where can I track transactions?</p>
+            <p className="modal-answer">
+              House Wallet:{" "}
+              <a
+                className="faq-link"
+                href="https://explorer.near.org/accounts/house.woothugg.near"
+                target={"_blank"}
+              >
+                https://explorer.near.org/accounts/house.woothugg.near
+              </a>
+            </p>
+            <p className="modal-answer">
+              Fee Wallet:{" "}
+              <a
+                className="faq-link"
+                href="https://explorer.mainnet.near.org/accounts/fees.woothugg.near"
+                target={"_blank"}
+              >
+                https://explorer.mainnet.near.org/accounts/fees.woothugg.near
+              </a>
+            </p>
+            <p className="modal-answer">
+              Team Wallet:{" "}
+              <a
+                className="faq-link"
+                href="https://explorer.mainnet.near.org/accounts/team.woothugg.near"
+                target={"_blank"}
+              >
+                https://explorer.mainnet.near.org/accounts/team.woothugg.near
+              </a>
+            </p>
+            <p className="modal-answer">
+              If you still have questions, join our discord and talk to the
+              team.{" "}
+              <a
+                className="faq-link"
+                href="https://discord.com/invite/dQfQ9gYqKb"
+                target={"_blank"}
+              >
+                https://discord.com/invite/dQfQ9gYqKb
+              </a>
+            </p>
 
-            <div
-              className="double-btn active"
-              style={{ textAlign: "center" }}
-              onClick={() => setShowFAQsModal(false)}
-            >
+            <DefaultButton onClick={() => setShowFAQsModal(false)}>
               Close
-            </div>
+            </DefaultButton>
           </section>
         </div>
       )}

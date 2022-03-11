@@ -4,6 +4,7 @@ import BN from "bn.js";
 import Header from "../Header/Header";
 import "../modal.css";
 import { login } from "../../utils";
+import DefaultButton from "../Core/buttons/DefaultButton";
 
 const options = { year: "numeric", month: "long", day: "numeric" };
 
@@ -58,7 +59,6 @@ const Stake = () => {
     totalStaked: "",
     fundInfo: {
       amount: "",
-      beginDate: "",
       endDate: "",
     },
   });
@@ -75,9 +75,11 @@ const Stake = () => {
     setData({
       totalStaked: (parseFloat(maxBet) / 1e24) * 500,
       fundInfo: {
-        amount: parseFloat(fundInfo[0]) / 1e24,
-        beginDate: getDate(fundInfo[1]).toLocaleDateString("en-US", options),
-        endDate: calculateRemainingTime(getDate(fundInfo[1]), 1),
+        amount: fundInfo?.length > 0 ? parseFloat(fundInfo[0]) / 1e24 : "-",
+        endDate:
+          fundInfo?.length > 0
+            ? calculateRemainingTime(getDate(fundInfo[1]), 1)
+            : "-",
       },
     });
   }, []);
@@ -106,12 +108,9 @@ const Stake = () => {
             {!window.walletConnection.isSignedIn() && (
               <div style={{ marginTop: "36px" }}>
                 <span>Connect your wallet and start staking!</span>
-                <button
-                  className="mt-16 bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
-                  onClick={login}
-                >
-                  Sign in
-                </button>
+                <DefaultButton onClick={login}>
+                  <span>Sign in</span>
+                </DefaultButton>
               </div>
             )}
             {window.walletConnection.isSignedIn() && (
@@ -144,18 +143,11 @@ const Stake = () => {
                     </div>
 
                     <div className="flex gap-4">
-                      <button
-                        className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
-                        onClick={() => setShowStakeModal(true)}
-                      >
+                      <DefaultButton onClick={() => setShowStakeModal(true)}>
                         Stake
-                      </button>
-                      <button
-                        className={`${
-                          data.fundInfo.endDate !== "Available"
-                            ? "bg-gray-20 cursor-not-allowed"
-                            : "bg-blue-500 hover:bg-blue-700"
-                        }  w-full  text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out`}
+                      </DefaultButton>
+                      <DefaultButton
+                        disabled={data.fundInfo.endDate !== "Available"}
                         onClick={async (event) => {
                           if (data.fundInfo.endDate !== "Available") return;
                           event.preventDefault();
@@ -176,30 +168,30 @@ const Stake = () => {
                         }}
                       >
                         Unstake
-                      </button>
+                      </DefaultButton>
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="flex justify-between">
                       <div className="flex flex-col gap-1">
-                        <div className="w-18 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
-                        <div className="w-24 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                        <div className="w-18 h-4 rounded text-left bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                        <div className="w-24 h-4 rounded text-left bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                       </div>
 
                       <div className="flex flex-col gap-1">
-                        <div className="w-18 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
-                        <div className="w-24 h-8 rounded text-left bg-gray-30 animate-pulse"></div>
+                        <div className="w-18 h-4 rounded text-left bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                        <div className="w-24 h-4 rounded text-left bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
-                      <div className="w-24 h-8 rounded bg-gray-30 animate-pulse"></div>
-                      <div className="w-24 h-8 rounded bg-gray-30 animate-pulse"></div>
+                      <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                      <div className="w-24 h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                     </div>
 
                     <div className="flex gap-4">
-                      <div className="w-full h-8 rounded bg-gray-30 animate-pulse"></div>
-                      <div className="w-full h-8 rounded bg-gray-30 animate-pulse"></div>
+                      <div className="w-full h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
+                      <div className="w-full h-4 rounded bg-gray-30 dark:bg-gray-20 animate-pulse"></div>
                     </div>
                   </>
                 )}
@@ -210,55 +202,53 @@ const Stake = () => {
       </div>
       {showStakeModal && (
         <div className="modal display-block">
-          <section className="modal-main">
+          <section className="modal-main bg-white dark:bg-smooth-gray dark:text-white font-roboto">
             <div className="modal-container">
-              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                Stake
-              </span>
-              <p className="modal-question">
+              <span className="font-bold text-xl font-robotoMono">Stake</span>
+            </div>
+            <div>
+              <p className="mb-4">
                 Please insert the amount you want to stake.
               </p>
               <input
+                className="border border-black rounded dark:border-white p-2 w-full text-sm"
                 type="number"
                 onChange={(e) => setStakeAmount(e.target.value)}
               />
             </div>
 
-            <div
-              className="double-btn active"
-              style={{ textAlign: "center" }}
-              onClick={() => setShowStakeModal(false)}
-            >
-              Cancel
-            </div>
-            <div
-              className="double-btn active"
-              style={{ textAlign: "center" }}
-              onClick={async (event) => {
-                event.preventDefault();
+            <div className="flex gap-4">
+              <DefaultButton onClick={() => setShowStakeModal(false)}>
+                Cancel
+              </DefaultButton>
+              <DefaultButton
+                disabled={!/^[1-9]+[0-9]*$/.test(stakeAmount)}
+                onClick={async (event) => {
+                  event.preventDefault();
 
-                await setTimeout(() => {
-                  try {
-                    window.contract.fund(
-                      {},
-                      100000000000000,
-                      new BN("1035000000000000000000000", 10).mul(
-                        new BN(stakeAmount.toString(), 10)
-                      )
-                    );
-                  } catch (e) {
-                    alert(
-                      "Something went wrong! " +
-                        "Maybe you need to sign out and back in? " +
-                        "Check your browser console for more info."
-                    );
-                    throw e;
-                  } finally {
-                  }
-                }, 2000);
-              }}
-            >
-              Stake
+                  await setTimeout(() => {
+                    try {
+                      window.contract.fund(
+                        {},
+                        100000000000000,
+                        new BN("1035000000000000000000000", 10).mul(
+                          new BN(stakeAmount.toString(), 10)
+                        )
+                      );
+                    } catch (e) {
+                      alert(
+                        "Something went wrong! " +
+                          "Maybe you need to sign out and back in? " +
+                          "Check your browser console for more info."
+                      );
+                      throw e;
+                    } finally {
+                    }
+                  }, 2000);
+                }}
+              >
+                Stake
+              </DefaultButton>
             </div>
           </section>
         </div>
