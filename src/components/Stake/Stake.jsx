@@ -257,7 +257,7 @@ const Stake = () => {
                       window.contract.fund(
                         {},
                         100000000000000,
-                        new BN("1035000000000000000000000", 10).mul(
+                        new BN("1000000000000000000000000", 10).mul(
                           new BN(stakeAmount.toString(), 10)
                         )
                       );
