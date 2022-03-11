@@ -266,6 +266,9 @@ button {
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 ::-webkit-scrollbar {
