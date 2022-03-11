@@ -107,7 +107,7 @@ const Stake = () => {
           <div className="coin-container bg-white dark:bg-smooth-gray dark:text-white">
             {!window.walletConnection.isSignedIn() && (
               <div style={{ marginTop: "36px" }}>
-                <span>Connect your wallet and start staking!</span>
+                <p className="mb-16">Connect your wallet and start staking!</p>
                 <DefaultButton onClick={login}>
                   <span>Sign in</span>
                 </DefaultButton>

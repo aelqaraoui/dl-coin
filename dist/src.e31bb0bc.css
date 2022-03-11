@@ -3999,6 +3999,10 @@ video {
   z-index: 50;
 }
 
+.z-1000 {
+  z-index: 1000;
+}
+
 .z-9999 {
   z-index: 9999;
 }
@@ -4031,6 +4035,10 @@ video {
   z-index: 50;
 }
 
+.focus-within\:z-1000:focus-within {
+  z-index: 1000;
+}
+
 .focus-within\:z-9999:focus-within {
   z-index: 9999;
 }
@@ -4061,6 +4069,10 @@ video {
 
 .focus\:z-50:focus {
   z-index: 50;
+}
+
+.focus\:z-1000:focus {
+  z-index: 1000;
 }
 
 .focus\:z-9999:focus {
@@ -26904,6 +26916,10 @@ body {
     z-index: 50;
   }
 
+  .sm\:z-1000 {
+    z-index: 1000;
+  }
+
   .sm\:z-9999 {
     z-index: 9999;
   }
@@ -26936,6 +26952,10 @@ body {
     z-index: 50;
   }
 
+  .sm\:focus-within\:z-1000:focus-within {
+    z-index: 1000;
+  }
+
   .sm\:focus-within\:z-9999:focus-within {
     z-index: 9999;
   }
@@ -26966,6 +26986,10 @@ body {
 
   .sm\:focus\:z-50:focus {
     z-index: 50;
+  }
+
+  .sm\:focus\:z-1000:focus {
+    z-index: 1000;
   }
 
   .sm\:focus\:z-9999:focus {
@@ -49660,6 +49684,10 @@ body {
     z-index: 50;
   }
 
+  .md\:z-1000 {
+    z-index: 1000;
+  }
+
   .md\:z-9999 {
     z-index: 9999;
   }
@@ -49692,6 +49720,10 @@ body {
     z-index: 50;
   }
 
+  .md\:focus-within\:z-1000:focus-within {
+    z-index: 1000;
+  }
+
   .md\:focus-within\:z-9999:focus-within {
     z-index: 9999;
   }
@@ -49722,6 +49754,10 @@ body {
 
   .md\:focus\:z-50:focus {
     z-index: 50;
+  }
+
+  .md\:focus\:z-1000:focus {
+    z-index: 1000;
   }
 
   .md\:focus\:z-9999:focus {
@@ -72416,6 +72452,10 @@ body {
     z-index: 50;
   }
 
+  .lg\:z-1000 {
+    z-index: 1000;
+  }
+
   .lg\:z-9999 {
     z-index: 9999;
   }
@@ -72448,6 +72488,10 @@ body {
     z-index: 50;
   }
 
+  .lg\:focus-within\:z-1000:focus-within {
+    z-index: 1000;
+  }
+
   .lg\:focus-within\:z-9999:focus-within {
     z-index: 9999;
   }
@@ -72478,6 +72522,10 @@ body {
 
   .lg\:focus\:z-50:focus {
     z-index: 50;
+  }
+
+  .lg\:focus\:z-1000:focus {
+    z-index: 1000;
   }
 
   .lg\:focus\:z-9999:focus {
@@ -95172,6 +95220,10 @@ body {
     z-index: 50;
   }
 
+  .xl\:z-1000 {
+    z-index: 1000;
+  }
+
   .xl\:z-9999 {
     z-index: 9999;
   }
@@ -95204,6 +95256,10 @@ body {
     z-index: 50;
   }
 
+  .xl\:focus-within\:z-1000:focus-within {
+    z-index: 1000;
+  }
+
   .xl\:focus-within\:z-9999:focus-within {
     z-index: 9999;
   }
@@ -95234,6 +95290,10 @@ body {
 
   .xl\:focus\:z-50:focus {
     z-index: 50;
+  }
+
+  .xl\:focus\:z-1000:focus {
+    z-index: 1000;
   }
 
   .xl\:focus\:z-9999:focus {
@@ -117928,6 +117988,10 @@ body {
     z-index: 50;
   }
 
+  .\32xl\:z-1000 {
+    z-index: 1000;
+  }
+
   .\32xl\:z-9999 {
     z-index: 9999;
   }
@@ -117960,6 +118024,10 @@ body {
     z-index: 50;
   }
 
+  .\32xl\:focus-within\:z-1000:focus-within {
+    z-index: 1000;
+  }
+
   .\32xl\:focus-within\:z-9999:focus-within {
     z-index: 9999;
   }
@@ -117990,6 +118058,10 @@ body {
 
   .\32xl\:focus\:z-50:focus {
     z-index: 50;
+  }
+
+  .\32xl\:focus\:z-1000:focus {
+    z-index: 1000;
   }
 
   .\32xl\:focus\:z-9999:focus {
