@@ -6,8 +6,6 @@ import Header from "../Header/Header";
 import "../modal.css";
 import "./Stake.css";
 
-const options = { year: "numeric", month: "long", day: "numeric" };
-
 const calculateRemainingTime = (dateIn, months) => {
   const date = new Date(dateIn);
   var d = date.getDate();
@@ -71,8 +69,10 @@ const Stake = () => {
       feeFreeBet: "",
     },
   });
+  const [balance, setBalance] = useState(0);
   const [stakeAmount, setStakeAmount] = useState(0);
   const [showStakeModal, setShowStakeModal] = useState(false);
+  const [rewards, setRewards] = useState(0);
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
@@ -102,9 +102,31 @@ const Stake = () => {
     });
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  useEffect(async () => {
+    if (window.walletConnection.isSignedIn()) {
+      setBalance(
+        (await window.walletConnection._connectedAccount.getAccountBalance())
+          .available / 1000000000000000000000000
+      );
+    }
+  }, []);
+
+  const getRewards = async () => {
+    await setTimeout(() => {
+      try {
+        window.contract.get_amount_claimable({}, 100000000000000);
+      } catch (e) {
+        alert(
+          "Something went wrong! " +
+            "Maybe you need to sign out and back in? " +
+            "Check your browser console for more info."
+        );
+        throw e;
+      } finally {
+      }
+    }, 2000);
+    // setRewards(reward);
+  };
 
   return (
     <>
@@ -196,6 +218,18 @@ const Stake = () => {
                         Unstake
                       </PlayButton>
                     </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="text-left">
+                        <p className="text-sm">Rewards Claimed</p>
+                        <p className="text-xl font-bold">
+                          {rewards} <span className="text-lg">LIZZY</span>
+                        </p>
+                      </div>
+                      <div className="w-16">
+                        <PlayButton onClick={getRewards}>Claim</PlayButton>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -228,7 +262,7 @@ const Stake = () => {
       </div>
       {showStakeModal && (
         <div className="modal display-block">
-          <section className="modal-main bg-white dark:bg-smooth-gray dark:text-white font-roboto">
+          <section className="modal-main bg-white dark:bg-smooth-gray dark:text-white font-roboto w-auto">
             <div className="modal-container">
               <span className="font-bold text-xl font-robotoMono">Stake</span>
             </div>
@@ -236,11 +270,34 @@ const Stake = () => {
               <p className="mb-4">
                 Please insert the amount you want to stake.
               </p>
-              <input
-                className="border border-black rounded dark:border-white p-2 w-full text-sm"
-                type="number"
-                onChange={(e) => setStakeAmount(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  className="border border-black rounded dark:border-white p-2 w-full text-sm text-black"
+                  type="number"
+                  placeholder="0.0"
+                  value={stakeAmount}
+                  onChange={(e) => setStakeAmount(e.target.value)}
+                />
+                <span
+                  className="absolute right-2 text-black text-sm font-bold"
+                  style={{ top: "50%", transform: "translateY(-50%)" }}
+                >
+                  Ⓝ
+                </span>
+              </div>
+              <div className="flex mt-1 justify-between items-center">
+                <p
+                  className="text-xs cursor-pointer text-blue-dark p-1 rounded bg-gray-20 hover:bg-blue-dark hover:text-white transition duration-500 ease-in-out font-bold"
+                  onClick={() => {
+                    setStakeAmount(Number(balance.toString().split(".")[0]));
+                  }}
+                >
+                  Use max
+                </p>
+                <p className="text-xs dark:text-white">
+                  Balance ~ {balance.toString().split(".")[0]}
+                </p>
+              </div>
             </div>
 
             <div className="flex gap-4">
@@ -252,13 +309,28 @@ const Stake = () => {
                 onClick={async (event) => {
                   event.preventDefault();
 
+                  if (!/^[1-9]+[0-9]*$/.test(stakeAmount)) return;
+
+                  // const decimals = stakeAmount % 1;
+                  // const int = stakeAmount - decimals;
+
+                  // const val = `10${decimals
+                  //   .toString()
+                  //   .replace("0,", "")
+                  //   .replace("0.", "")
+                  //   .slice(0, 4)}0000000000000000000`;
+
+                  // console.log(decimals);
+                  // console.log(int);
+                  // console.log(val);
+                  // console.log("1035000000000000000000000");
                   await setTimeout(() => {
                     try {
                       window.contract.fund(
                         {},
                         100000000000000,
                         new BN("1000000000000000000000000", 10).mul(
-                          new BN(stakeAmount.toString(), 10)
+                          new BN(int.toString(), 10)
                         )
                       );
                     } catch (e) {

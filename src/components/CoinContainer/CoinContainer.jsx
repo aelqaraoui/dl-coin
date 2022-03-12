@@ -97,13 +97,8 @@ const CoinContainer = ({ flipStatus }) => {
 
         {!window.walletConnection.isSignedIn() && (
           <div style={{ marginTop: "-40px" }}>
-            <span>Connect your wallet and start playing!</span>
-            <button
-              className="mt-16 bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 rounded text-sm rounded-lg transition duration-150 ease-in-out"
-              onClick={login}
-            >
-              Sign in
-            </button>
+            <p className="mb-16">Connect your wallet and start playing!</p>
+            <PlayButton onClick={login}>Sign in</PlayButton>
           </div>
         )}
 

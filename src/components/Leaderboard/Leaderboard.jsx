@@ -163,7 +163,7 @@ const LeaderBoard = () => {
       style={{ paddingBottom: "24px" }}
       data-theme={theme}
     >
-      <div className="header" style={{ gap: 0 }}>
+      <div className="flex items-center px-24 py-6 bg-white dark:bg-blue-accent dark:text-white font-roboto text-sm">
         <div className="flex flex-1 items-center gap-2 font-bold">
           <FaTrophy />
           <p>Leaderboard</p>

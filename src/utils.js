@@ -42,6 +42,7 @@ export async function initContract() {
         "unfund",
         "get_fee_free",
         "get_fund_info",
+        "get_amount_claimable",
       ],
     }
   );
