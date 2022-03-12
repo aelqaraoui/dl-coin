@@ -70,17 +70,16 @@ const Stake = () => {
     },
   });
   const [balance, setBalance] = useState(0);
-  const [stakeAmount, setStakeAmount] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState("");
   const [showStakeModal, setShowStakeModal] = useState(false);
   const [rewards, setRewards] = useState(0);
-
-  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useState(defaultDark ? "dark" : "light");
+  const [isRewardLoading, setIsRewardLoading] = useState(false);
 
   useEffect(async () => {
     const maxBet = await window.contract.get_max_bet();
     const fundInfo = await window.contract.get_fund_info();
     const feeFreeBet = await window.contract.get_fee_free();
+    getRewards();
 
     setData({
       totalStaked: maxBet
@@ -112,20 +111,12 @@ const Stake = () => {
   }, []);
 
   const getRewards = async () => {
-    await setTimeout(() => {
-      try {
-        window.contract.get_amount_claimable({}, 100000000000000);
-      } catch (e) {
-        alert(
-          "Something went wrong! " +
-            "Maybe you need to sign out and back in? " +
-            "Check your browser console for more info."
-        );
-        throw e;
-      } finally {
-      }
-    }, 2000);
-    // setRewards(reward);
+    setIsRewardLoading(true);
+
+    const reward = await window.contract.get_amount_claimable();
+
+    setRewards(reward ?? 0);
+    setIsRewardLoading(false);
   };
 
   return (
@@ -133,9 +124,8 @@ const Stake = () => {
       <div
         className="home-container bg-gray-10 dark:bg-blue-dark"
         style={{ paddingBottom: "24px" }}
-        data-theme={theme}
       >
-        <Header theme={theme} setTheme={setTheme} />
+        <Header />
         <div className="body">
           <h3
             className="font-robotoMono dark:text-white"
@@ -157,7 +147,8 @@ const Stake = () => {
               <div className="flex flex-col gap-12">
                 {data.totalStaked &&
                 data.fundInfo.amount &&
-                data.fundInfo.endDate ? (
+                data.fundInfo.endDate &&
+                rewards ? (
                   <>
                     <div className="flex justify-between">
                       <div className="text-left">
@@ -222,12 +213,28 @@ const Stake = () => {
                     <div className="flex justify-between items-center">
                       <div className="text-left">
                         <p className="text-sm">Rewards Claimed</p>
-                        <p className="text-xl font-bold">
-                          {rewards} <span className="text-lg">LIZZY</span>
-                        </p>
+                        <div className="w-2/3 break-word">
+                          <p className="text-xl font-bold">
+                            {rewards} <span className="text-lg">LIZZY</span>
+                          </p>
+                        </div>
                       </div>
                       <div className="w-16">
-                        <PlayButton onClick={getRewards}>Claim</PlayButton>
+                        <PlayButton
+                          disabled={!data.fundInfo.amount}
+                          onClick={() => {
+                            if (isRewardLoading) return;
+                            getRewards();
+                          }}
+                        >
+                          {isRewardLoading ? (
+                            <div className="flex justify-center items-center">
+                              <div className="w-4 h-4 rounded-full animate-pulse bg-gray-10"></div>
+                            </div>
+                          ) : (
+                            "Claim"
+                          )}
+                        </PlayButton>
                       </div>
                     </div>
                   </>
@@ -330,7 +337,7 @@ const Stake = () => {
                         {},
                         100000000000000,
                         new BN("1000000000000000000000000", 10).mul(
-                          new BN(int.toString(), 10)
+                          new BN(stakeAmount.toString(), 10)
                         )
                       );
                     } catch (e) {
