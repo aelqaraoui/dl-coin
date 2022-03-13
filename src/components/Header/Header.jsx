@@ -5,6 +5,7 @@ import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../services/providers/ThemeContext";
 import { logout } from "../../utils";
+import { numberWithCommas } from "../../utils/formatValue";
 import "../Home/home.css";
 
 const Header = () => {
@@ -16,7 +17,9 @@ const Header = () => {
     if (window.walletConnection.isSignedIn()) {
       setBalance(
         (await window.walletConnection._connectedAccount.getAccountBalance())
-          .available / 1000000000000000000000000
+          .available /
+          1000000000000000000000000 -
+          0.06
       );
     }
   }, []);
@@ -110,7 +113,7 @@ const Header = () => {
             <div className="mb-6 flex justify-between text-xs font-bold">
               <p>
                 {window.accountId}{" "}
-                <span className="text-green">{balance.toFixed(2)} Ⓝ</span>
+                <span className="text-green">{numberWithCommas(balance.toFixed(2))} Ⓝ</span>
               </p>
               <p onClick={logout}>Sign out</p>
             </div>

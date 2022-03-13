@@ -1,6 +1,9 @@
+import Big from "big.js";
 import BN from "bn.js";
 import React, { useEffect, useState } from "react";
 import { login } from "../../utils";
+import { numberWithCommas } from "../../utils/formatValue";
+import { parseTokenAmount, toNear } from "../../utils/nearValues";
 import PlayButton from "../Core/buttons/PlayButton";
 import Header from "../Header/Header";
 import "../modal.css";
@@ -105,7 +108,9 @@ const Stake = () => {
     if (window.walletConnection.isSignedIn()) {
       setBalance(
         (await window.walletConnection._connectedAccount.getAccountBalance())
-          .available / 1000000000000000000000000
+          .available /
+          1000000000000000000000000 -
+          0.06
       );
     }
   }, []);
@@ -154,14 +159,15 @@ const Stake = () => {
                       <div className="text-left">
                         <p className="text-sm">Total Staked</p>
                         <p className="text-2xl font-bold">
-                          {data.totalStaked} <span className="text-lg">Ⓝ</span>
+                          {numberWithCommas(data.totalStaked)}{" "}
+                          <span className="text-lg">Ⓝ</span>
                         </p>
                       </div>
 
                       <div className="text-left">
                         <p className="text-sm">Amount staked</p>
                         <p className="text-2xl font-bold">
-                          {data.fundInfo.amount}{" "}
+                          {numberWithCommas(data.fundInfo.amount)}{" "}
                           <span className="text-lg">Ⓝ</span>
                         </p>
                       </div>
@@ -213,27 +219,23 @@ const Stake = () => {
                     <div className="flex justify-between items-center">
                       <div className="text-left">
                         <p className="text-sm">Rewards Claimed</p>
-                        <div className="w-2/3 break-word">
-                          <p className="text-xl font-bold">
-                            {rewards} <span className="text-lg">LIZZY</span>
+                        <div className="w-5/6 break-word">
+                          <p className="text-base font-bold">
+                            {numberWithCommas(rewards.toFixed(2))}{" "}
+                            <span className="text-sm">LIZZY</span>
                           </p>
                         </div>
                       </div>
                       <div className="w-16">
                         <PlayButton
                           disabled={!data.fundInfo.amount}
+                          loading={isRewardLoading}
                           onClick={() => {
                             if (isRewardLoading) return;
                             getRewards();
                           }}
                         >
-                          {isRewardLoading ? (
-                            <div className="flex justify-center items-center">
-                              <div className="w-4 h-4 rounded-full animate-pulse bg-gray-10"></div>
-                            </div>
-                          ) : (
-                            "Claim"
-                          )}
+                          Claim
                         </PlayButton>
                       </div>
                     </div>
@@ -296,13 +298,13 @@ const Stake = () => {
                 <p
                   className="text-xs cursor-pointer text-blue-dark p-1 rounded bg-gray-20 hover:bg-blue-dark hover:text-white transition duration-500 ease-in-out font-bold"
                   onClick={() => {
-                    setStakeAmount(Number(balance.toString().split(".")[0]));
+                    setStakeAmount(balance);
                   }}
                 >
                   Use max
                 </p>
                 <p className="text-xs dark:text-white">
-                  Balance ~ {balance.toString().split(".")[0]}
+                  Balance ~ {balance.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -312,33 +314,18 @@ const Stake = () => {
                 Cancel
               </PlayButton>
               <PlayButton
-                disabled={!/^[1-9]+[0-9]*$/.test(stakeAmount)}
+                disabled={stakeAmount <= 0}
                 onClick={async (event) => {
                   event.preventDefault();
 
-                  if (!/^[1-9]+[0-9]*$/.test(stakeAmount)) return;
+                  if (stakeAmount <= 0) return;
 
-                  // const decimals = stakeAmount % 1;
-                  // const int = stakeAmount - decimals;
-
-                  // const val = `10${decimals
-                  //   .toString()
-                  //   .replace("0,", "")
-                  //   .replace("0.", "")
-                  //   .slice(0, 4)}0000000000000000000`;
-
-                  // console.log(decimals);
-                  // console.log(int);
-                  // console.log(val);
-                  // console.log("1035000000000000000000000");
                   await setTimeout(() => {
                     try {
                       window.contract.fund(
                         {},
                         100000000000000,
-                        new BN("1000000000000000000000000", 10).mul(
-                          new BN(stakeAmount.toString(), 10)
-                        )
+                        new BN(toNear(stakeAmount.toString()))
                       );
                     } catch (e) {
                       alert(

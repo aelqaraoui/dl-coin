@@ -10,6 +10,7 @@ import getConfig from "../../config";
 import "../modal.css";
 import "./home.css";
 import PlayButton from "../Core/buttons/PlayButton";
+import { numberWithCommas } from "../../utils/formatValue";
 
 const { networkId } = getConfig("mainnet");
 
@@ -20,16 +21,18 @@ const Home = () => {
 
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showFAQsModal, setShowFAQsModal] = useState(false);
-  const [feesBalance, setFeesBalance] = useState(0);
+  const [volume, setVolume] = useState(0);
 
   useEffect(async () => {
-    // const near = await connect(window.walletConnection._near.config);
-
-    // const feesAccount = await near.account("fees.woothugg.near");
-    // setFeesBalance(
-    //   (await feesAccount.getAccountBalance()).available /
-    //     1000000000000000000000000
-    // );
+    fetch(`https://indexer-dl.herokuapp.com/api/leaderboard/volume/0`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((jsonResponse) => {
+        setVolume(numberWithCommas(jsonResponse.total_volume.toFixed(2)));
+      });
 
     const provider = new providers.JsonRpcProvider(
       "https://archival-rpc.testnet.near.org"
@@ -78,7 +81,7 @@ const Home = () => {
 
           {
             <div className="font-robotoMono">
-              Fees Balance: <span className="text-green">{feesBalance} Ⓝ</span>
+              Volume Flipped: <span className="text-green">{volume} Ⓝ</span>
             </div>
           }
 
