@@ -47,7 +47,7 @@ const RecentPlays = () => {
         setRecentPlays(
           jsonResponse.data.map((elm) => {
             return {
-              amount: Math.trunc(elm.amount),
+              amount: (parseFloat(elm.amount)/1.035).toFixed(1),
               time: timeDifference(new Date(), elm.timestamp ?? null),
               accountId: elm.signer_id ?? "default.near",
               outcome: elm.outcome ? "won" : "lost",
