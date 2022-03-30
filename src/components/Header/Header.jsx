@@ -57,11 +57,11 @@ const Header = () => {
                 </div>
               </li>
             </Link>
-            <Link to="/stake" className="no-underline">
+            {/* <Link to="/stake" className="no-underline">
               <li className="cursor-pointer dark:text-white p-2 rounded bg-transparent hover:bg-gray-10 dark:hover:bg-smooth-gray dark:hover:text-white transition duration-500 ease-in-out font-bold">
                 <span>Stake</span>
               </li>
-            </Link>
+            </Link> */}
           </ul>
         </div>
         <div className="flex flex-1 justify-end items-center gap-12">
