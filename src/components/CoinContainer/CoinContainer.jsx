@@ -29,7 +29,6 @@ const CoinContainer = ({ flipStatus }) => {
   const [betsArray, setBetsArray] = useState(bets);
 
   useEffect(async () => {
-    const maxBet = await window.contract.get_max_bet();
     const maxBetFinal = 10;
 
     if (maxBetFinal > 10) {
