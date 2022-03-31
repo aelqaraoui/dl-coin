@@ -46,7 +46,9 @@ const Home = () => {
       window.walletConnection._near.config.contractName
     );
 
-    setStatus(result.receipts_outcome[0].outcome.logs[5]);
+    console.log(result.receipts_outcome[0])
+
+    setStatus(result.receipts_outcome[0].outcome.logs[3]);
 
     setTimeout(() => {
       setStatus("");
