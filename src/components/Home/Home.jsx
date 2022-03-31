@@ -35,7 +35,7 @@ const Home = () => {
       });
 
     const provider = new providers.JsonRpcProvider(
-      "https://archival-rpc.mainnet.near.org"
+      "https://archival-rpc.testnet.near.org"
     );
 
     const urlSearchParams = new URLSearchParams(window.location.search);
