@@ -22,6 +22,7 @@ const Home = () => {
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showFAQsModal, setShowFAQsModal] = useState(false);
   const [volume, setVolume] = useState(0);
+  const [nearPrice, setNearPrice] = useState(0);
 
   useEffect(async () => {
     fetch(`https://indexer-dl.herokuapp.com/api/leaderboard/volume/0`)
@@ -31,8 +32,19 @@ const Home = () => {
         }
       })
       .then((jsonResponse) => {
-        setVolume(numberWithCommas(jsonResponse.total_volume.toFixed(2)));
+        setVolume(jsonResponse.total_volume.toFixed(2));
       });
+
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd')
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+      .then((response) => {
+        console.log('Near Price', response)
+        setNearPrice(response.near.usd)
+      })
 
     const provider = new providers.JsonRpcProvider(
       "https://archival-rpc.mainnet.near.org"
@@ -48,7 +60,7 @@ const Home = () => {
 
     console.log(result.receipts_outcome[0])
 
-    setStatus(result.receipts_outcome[0].outcome.logs[3]);
+    setStatus(result.receipts_outcome[0].outcome.logs[3]);    
 
     setTimeout(() => {
       setStatus("");
@@ -83,7 +95,7 @@ const Home = () => {
 
           {
             <div className="font-robotoMono">
-              Volume Flipped: <span className="text-green">{volume} Ⓝ</span>
+              Volume Flipped: <span className="text-green">{numberWithCommas(volume)} Ⓝ  ( $ {numberWithCommas((nearPrice * volume).toFixed(2))} )</span>
             </div>
           }
 

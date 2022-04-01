@@ -115,6 +115,8 @@ const LeaderBoard = () => {
         setIsLoading(false);
         setIsLoadingStats(false);
       });
+
+    
   }, []);
 
   useEffect(() => {
