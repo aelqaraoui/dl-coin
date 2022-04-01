@@ -71,7 +71,14 @@ const LeaderBoard = () => {
   const { theme, setTheme } = useContext(ThemeContext);
 
   const formatNumber = (number) => {
-    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+    if (number.toFixed(2) % 1 === 0) {
+      return number ? number.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+    }
+    else 
+    {
+      return number ? number.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+    }
+    
   };
 
   useEffect(() => {
